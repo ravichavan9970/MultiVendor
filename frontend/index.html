@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiVendor Marketplace & Service Booking</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <a href="index.html" class="logo">
+            <span>💳 MultiVendor</span>
+        </a>
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link active">Marketplace</a>
+            <div id="auth-buttons">
+                <button class="btn btn-secondary" onclick="Auth.showLoginModal()">Log In</button>
+                <button class="btn btn-primary" onclick="Auth.showRegisterModal()">Sign Up</button>
+            </div>
+            <div id="user-profile" style="display: none; align-items: center; gap: 0.8rem;">
+                <button class="btn btn-secondary" onclick="Profile.showMyBookingsModal()">📅 My Bookings</button>
+                <button class="btn btn-secondary" onclick="Profile.showProfileModal()">⚙️ <span id="user-display-name">Profile</span></button>
+                <button class="btn btn-danger" style="padding: 0.5rem 0.8rem;" onclick="Auth.logout()">Log Out</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero">
+        <h1>Book Verified Experts & Premium Services</h1>
+        <p>Dynamic slot calendar reservation with real-time double-booking concurrency protection & instant payment.</p>
+    </section>
+
+    <!-- Search & Filter Controls -->
+    <section class="filter-bar glass">
+        <input type="text" id="search-input" class="search-input" placeholder="Search tutors, design audits, mock interviews..." oninput="App.filterServices()">
+        <div class="category-pills">
+            <button class="pill active" data-category="ALL" onclick="App.selectCategory('ALL', this)">All Categories</button>
+            <button class="pill" data-category="TUTORING" onclick="App.selectCategory('TUTORING', this)">Tutoring & Coaching</button>
+            <button class="pill" data-category="FREELANCE" onclick="App.selectCategory('FREELANCE', this)">Design & Development</button>
+            <button class="pill" data-category="CONSULTING" onclick="App.selectCategory('CONSULTING', this)">Consulting</button>
+        </div>
+    </section>
+
+    <!-- Service Marketplace Cards -->
+    <main class="grid-container" id="services-grid">
+        <!-- Rendered dynamically by app.js -->
+    </main>
+
+    <!-- Booking Modal -->
+    <div class="modal-overlay" id="booking-modal">
+        <div class="modal-content glass">
+            <button class="modal-close" onclick="App.closeBookingModal()">✕</button>
+            <h2 id="modal-service-title" style="margin-bottom: 0.4rem;">Select Booking Slot</h2>
+            <p id="modal-vendor-name" style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;"></p>
+            
+            <p style="font-weight: 600; margin-bottom: 0.5rem;">Available Time Slots:</p>
+            <div class="slots-grid" id="modal-slots-grid">
+                <!-- Rendered dynamically -->
+            </div>
+
+            <div style="margin-top: 1rem;">
+                <label style="display: block; font-size: 0.85rem; margin-bottom: 0.3rem; color: var(--text-secondary);">💬 Questions or Special Notes for Provider (optional):</label>
+                <textarea id="booking-customer-notes" class="search-input" rows="2" style="width: 100%; resize: vertical;" placeholder="e.g. Topics you want to cover, project link, questions for provider..."></textarea>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-glass); display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Total Price:</span>
+                    <div id="modal-service-price" style="font-size: 1.4rem; font-weight: 800; color: var(--accent-success);">$0.00</div>
+                </div>
+                <button class="btn btn-primary" id="confirm-hold-btn" onclick="Calendar.confirmBookingHold()">Proceed to Payment Gateway</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Embedded Real-Time Credit Card Payment Gateway Modal -->
+    <div class="modal-overlay" id="payment-modal">
+        <div class="modal-content glass" style="max-width: 480px;">
+            <button class="modal-close" onclick="Calendar.closePaymentGatewayModal()">✕</button>
+            <h2 style="margin-bottom: 0.3rem;">💳 Real-Time Payment Gateway</h2>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.2rem;">Complete your transaction securely via Stripe Sandbox.</p>
+            
+            <!-- Live Interactive Card Preview -->
+            <div class="card-preview">
+                <div class="card-brand" id="card-brand-display">VISA</div>
+                <div class="card-chip"></div>
+                <div class="card-number-display" id="card-num-display">•••• •••• •••• ••••</div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div>
+                        <div style="font-size: 0.65rem; color: #94a3b8; text-transform: uppercase;">Card Holder</div>
+                        <div class="card-holder-display" id="card-name-display">JOHN DOE</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.65rem; color: #94a3b8; text-transform: uppercase;">Expires</div>
+                        <div style="font-size: 0.85rem; font-weight: 600;">12/28</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Order Summary -->
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.2rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div id="pay-service-title" style="font-weight: 700; color: white;">Service Title</div>
+                    <div id="pay-vendor-name" style="font-size: 0.8rem; color: var(--text-secondary);">Provider</div>
+                    <div style="font-size: 0.75rem; color: #a5b4fc; margin-top: 0.2rem;">Hold Ref: <span id="pay-booking-ref">#...</span></div>
+                </div>
+                <div id="pay-total-price" style="font-size: 1.5rem; font-weight: 800; color: var(--accent-success);">$0.00</div>
+            </div>
+
+            <!-- Payment Form -->
+            <form onsubmit="Calendar.processCardPayment(event)">
+                <div style="margin-bottom: 0.8rem;">
+                    <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Card Number</label>
+                    <input type="text" id="card-number-input" class="search-input" placeholder="4242 4242 4242 4242" required style="width: 100%; font-family: monospace;" oninput="Calendar.formatCardNumber(this)" maxlength="19" value="4242 4242 4242 4242">
+                </div>
+                <div style="margin-bottom: 0.8rem;">
+                    <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Cardholder Name</label>
+                    <input type="text" id="card-name-input" class="search-input" placeholder="John Doe" required style="width: 100%;" oninput="Calendar.updateCardName(this)" value="John Doe">
+                </div>
+                <div style="display: flex; gap: 0.8rem; margin-bottom: 1.2rem;">
+                    <div style="flex: 1;">
+                        <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Expiry Date</label>
+                        <input type="text" placeholder="MM/YY" class="search-input" required style="width: 100%;" maxlength="5" value="12/28">
+                    </div>
+                    <div style="flex: 1;">
+                        <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">CVC / CVV</label>
+                        <input type="text" placeholder="123" class="search-input" required style="width: 100%;" maxlength="4" value="123">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="pay-process-btn" style="width: 100%; justify-content: center; font-size: 1rem; padding: 0.8rem;">Pay & Complete Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Profile & Settings Modal -->
+    <div class="modal-overlay" id="profile-modal">
+        <div class="modal-content glass" style="max-width: 500px; overflow-x: hidden;">
+            <button class="modal-close" onclick="Profile.closeProfileModal()">✕</button>
+            
+            <div class="tab-header">
+                <button class="tab-btn active" onclick="Profile.switchTab('info', this)">⚙️ Edit Profile</button>
+                <button class="tab-btn" onclick="Profile.switchTab('password', this)">🔒 Change Password</button>
+            </div>
+
+            <!-- Tab 1: Profile Info -->
+            <div class="tab-content active" id="tab-info">
+                <form onsubmit="Profile.handleUpdateProfile(event)">
+                    <div style="margin-bottom: 0.8rem;">
+                        <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Email Address (Read-Only)</label>
+                        <input type="email" id="prof-email" class="search-input" disabled style="width: 100%; opacity: 0.6;">
+                    </div>
+                    <div style="margin-bottom: 0.8rem;">
+                        <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Full Name</label>
+                        <input type="text" id="prof-name" class="search-input" required style="width: 100%;">
+                    </div>
+                    
+                    <!-- Compact Phone Number with Country Code Dropdown -->
+                    <div style="margin-bottom: 0.8rem;">
+                        <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Phone Number</label>
+                        <div style="display: flex; gap: 0.5rem; width: 100%;">
+                            <select id="prof-country-code" class="search-input" style="width: 95px; flex-shrink: 0; padding: 0.5rem 0.4rem; color: white; background: #121a2b;">
+                                <option value="+1">🇺🇸 +1</option>
+                                <option value="+91" selected>🇮🇳 +91</option>
+                                <option value="+44">🇬🇧 +44</option>
+                                <option value="+61">🇦🇺 +61</option>
+                                <option value="+49">🇩🇪 +49</option>
+                                <option value="+33">🇫🇷 +33</option>
+                                <option value="+81">🇯🇵 +81</option>
+                                <option value="+971">🇦🇪 +971</option>
+                                <option value="+55">🇧🇷 +55</option>
+                                <option value="+86">🇨🇳 +86</option>
+                                <option value="+65">🇸🇬 +65</option>
+                                <option value="+92">🇵🇰 +92</option>
+                                <option value="+880">🇧🇩 +880</option>
+                                <option value="+27">🇿🇦 +27</option>
+                                <option value="+34">🇪🇸 +34</option>
+                                <option value="+39">🇮🇹 +39</option>
+                            </select>
+                            <input type="tel" id="prof-phone" class="search-input" style="flex: 1; min-width: 0;" placeholder="98765 43210">
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="prof-role">
+
+                    <!-- Vendor specific profile fields -->
+                    <div id="prof-vendor-fields" style="display: none; padding-top: 0.5rem; border-top: 1px solid var(--border-glass); margin-top: 0.8rem;">
+                        <h4 style="margin-bottom: 0.8rem; color: var(--accent-secondary);">Vendor Profile Info</h4>
+                        <div style="margin-bottom: 0.8rem;">
+                            <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Business Name</label>
+                            <input type="text" id="prof-business-name" class="search-input" style="width: 100%;">
+                        </div>
+                        <div style="margin-bottom: 0.8rem;">
+                            <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Category</label>
+                            <select id="prof-category" class="search-input" style="width: 100%; color: white; background: #121a2b;">
+                                <option value="TUTORING">Tutoring & Coaching</option>
+                                <option value="FREELANCE">Design & Development</option>
+                                <option value="CONSULTING">Consulting</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.8rem;">
+                            <div style="flex: 1;">
+                                <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Hourly Rate ($)</label>
+                                <input type="number" id="prof-rate" class="search-input" style="width: 100%;">
+                            </div>
+                            <div style="flex: 1;">
+                                <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Location</label>
+                                <input type="text" id="prof-location" class="search-input" style="width: 100%;">
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 0.8rem;">
+                            <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Bio / Overview</label>
+                            <textarea id="prof-bio" class="search-input" rows="2" style="width: 100%; resize: vertical;"></textarea>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-glass); display: flex; justify-content: space-between; align-items: center;">
+                        <button type="button" class="btn btn-danger" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;" onclick="Profile.deleteAccount()">🗑️ Delete Account</button>
+                        <button type="submit" class="btn btn-primary">Save Profile Changes</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tab 2: Change Password -->
+            <div class="tab-content" id="tab-password">
+                <form onsubmit="Profile.handleChangePassword(event)">
+                    <div style="margin-bottom: 0.8rem;">
+                        <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Current Password</label>
+                        <input type="password" id="pass-current" class="search-input" required style="width: 100%;">
+                    </div>
+                    <div style="margin-bottom: 0.8rem;">
+                        <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">New Password</label>
+                        <input type="password" id="pass-new" class="search-input" required style="width: 100%;" minlength="6">
+                    </div>
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Confirm New Password</label>
+                        <input type="password" id="pass-confirm" class="search-input" required style="width: 100%;" minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Update Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer "My Bookings" Manager Modal -->
+    <div class="modal-overlay" id="my-bookings-modal">
+        <div class="modal-content glass" style="max-width: 650px;">
+            <button class="modal-close" onclick="Profile.closeMyBookingsModal()">✕</button>
+            <h2 style="margin-bottom: 1rem;">📅 My Appointments & Booking Receipts</h2>
+            <div id="customer-bookings-list">
+                <!-- Rendered dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Receipt Modal -->
+    <div class="modal-overlay" id="receipt-modal">
+        <div class="modal-content glass" style="max-width: 440px; text-align: center;">
+            <button class="modal-close" onclick="Profile.closeReceiptModal()">✕</button>
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎉</div>
+            <h2 style="color: var(--accent-success); margin-bottom: 0.3rem;">Payment Receipt</h2>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.2rem;">MultiVendor Transaction Completed</p>
+            
+            <div style="background: rgba(255,255,255,0.03); border: 1px dashed var(--border-glass); border-radius: 12px; padding: 1.2rem; text-align: left; margin-bottom: 1.5rem;">
+                <div style="margin-bottom: 0.6rem; display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-secondary); font-size: 0.85rem;">Reference Code:</span>
+                    <strong style="color: #a5b4fc; font-family: monospace;" id="receipt-ref">REF-12345</strong>
+                </div>
+                <div style="margin-bottom: 0.6rem; display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-secondary); font-size: 0.85rem;">Service:</span>
+                    <strong style="color: white;" id="receipt-service">Service Title</strong>
+                </div>
+                <div style="margin-bottom: 0.6rem; display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-secondary); font-size: 0.85rem;">Provider:</span>
+                    <strong style="color: white;" id="receipt-vendor">Provider Name</strong>
+                </div>
+                <div style="margin-bottom: 0.6rem; display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-secondary); font-size: 0.85rem;">Transaction Time:</span>
+                    <strong style="color: white;" id="receipt-date">Date</strong>
+                </div>
+                <div style="margin-bottom: 0.6rem; display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-secondary); font-size: 0.85rem;">Reserved Slot Schedule:</span>
+                    <strong style="color: var(--accent-secondary);" id="receipt-slot-time">Slot Time</strong>
+                </div>
+                <div style="padding-top: 0.6rem; border-top: 1px solid var(--border-glass); display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: 700; color: white;">Total Paid:</span>
+                    <strong style="font-size: 1.4rem; color: var(--accent-success);" id="receipt-price">$0.00</strong>
+                </div>
+                <div style="margin-top: 0.8rem; padding-top: 0.6rem; border-top: 1px solid var(--border-glass);">
+                    <span style="color: #38bdf8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 0.2rem;">🎥 Online Meeting Room Link:</span>
+                    <a id="receipt-meeting-link" href="#" target="_blank" style="color: white; font-size: 0.85rem; text-decoration: underline; word-break: break-all;">https://meet.google.com/dae-zpiu-oau</a>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="Profile.closeReceiptModal()">Done</button>
+        </div>
+    </div>
+
+    <!-- Dual Identifier Login Modal (Email or Mobile Phone Number) -->
+    <div class="modal-overlay" id="login-modal">
+        <div class="modal-content glass" style="max-width: 420px;">
+            <button class="modal-close" onclick="Auth.closeLoginModal()">✕</button>
+            <h2 style="margin-bottom: 0.3rem;">Welcome Back</h2>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.2rem;">Log in using your registered Email or Phone Number.</p>
+            <form onsubmit="Auth.handleLogin(event)">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.4rem;">Email Address or Mobile Phone Number</label>
+                    <input type="text" id="login-email" class="search-input" placeholder="e.g. john@gmail.com or +91 9876543210" required style="width: 100%;" value="customer.john@gmail.com">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.4rem;">Password</label>
+                    <input type="password" id="login-password" class="search-input" required style="width: 100%;" value="password123">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Log In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal-overlay" id="register-modal">
+        <div class="modal-content glass" style="max-width: 460px; overflow-x: hidden;">
+            <button class="modal-close" onclick="Auth.closeRegisterModal()">✕</button>
+            <h2 style="margin-bottom: 1.2rem;">Create Account</h2>
+            <form onsubmit="Auth.handleRegister(event)">
+                <div style="margin-bottom: 0.8rem;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.3rem;">Full Name</label>
+                    <input type="text" id="reg-name" class="search-input" required style="width: 100%;">
+                </div>
+                <div style="margin-bottom: 0.8rem;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.3rem;">Email Address</label>
+                    <input type="email" id="reg-email" class="search-input" required style="width: 100%;">
+                </div>
+                <div style="margin-bottom: 0.8rem;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.3rem;">Mobile Phone Number</label>
+                    <div style="display: flex; gap: 0.5rem; width: 100%;">
+                        <select id="reg-country-code" class="search-input" style="width: 95px; flex-shrink: 0; padding: 0.5rem 0.4rem; color: white; background: #121a2b;">
+                            <option value="+1">🇺🇸 +1</option>
+                            <option value="+91" selected>🇮🇳 +91</option>
+                            <option value="+44">🇬🇧 +44</option>
+                            <option value="+61">🇦🇺 +61</option>
+                            <option value="+49">🇩🇪 +49</option>
+                            <option value="+33">🇫🇷 +33</option>
+                            <option value="+81">🇯🇵 +81</option>
+                            <option value="+971">🇦🇪 +971</option>
+                            <option value="+55">🇧🇷 +55</option>
+                            <option value="+86">🇨🇳 +86</option>
+                            <option value="+65">🇸🇬 +65</option>
+                            <option value="+92">🇵🇰 +92</option>
+                            <option value="+880">🇧🇩 +880</option>
+                            <option value="+27">🇿🇦 +27</option>
+                            <option value="+34">🇪🇸 +34</option>
+                            <option value="+39">🇮🇹 +39</option>
+                        </select>
+                        <input type="tel" id="reg-phone" class="search-input" required style="flex: 1; min-width: 0;" placeholder="98765 43210">
+                    </div>
+                </div>
+                <div style="margin-bottom: 0.8rem;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.3rem;">Password</label>
+                    <input type="password" id="reg-password" class="search-input" required style="width: 100%;" minlength="6">
+                </div>
+                <div style="margin-bottom: 1.2rem;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.3rem;">Account Type</label>
+                    <select id="reg-role" class="search-input" style="width: 100%; color: white; background: #121a2b;">
+                        <option value="CUSTOMER">Customer (Book Services)</option>
+                        <option value="VENDOR">Service Provider / Vendor</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send Verification OTP 📲</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 6-Digit OTP Verification Modal -->
+    <div class="modal-overlay" id="otp-modal">
+        <div class="modal-content glass" style="max-width: 440px; text-align: center;">
+            <button class="modal-close" onclick="Auth.closeOtpModal()">✕</button>
+            <div style="font-size: 2.5rem; margin-bottom: 0.4rem;">📲</div>
+            <h2 style="margin-bottom: 0.3rem;">Verify OTP Code</h2>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.2rem;">
+                Enter the 6-digit OTP code sent to <br><strong style="color: #a5b4fc;" id="otp-target-display">your email & mobile</strong>.
+            </p>
+
+            <form onsubmit="Auth.handleVerifyOtp(event)">
+                <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.2rem;" id="otp-inputs-container">
+                    <input type="text" class="search-input otp-digit" maxlength="1" style="width: 48px; height: 54px; text-align: center; font-size: 1.4rem; font-weight: 800; color: #38bdf8;" required oninput="Auth.handleOtpDigitInput(this, 0)" onkeydown="Auth.handleOtpKeyDown(event, 0)">
+                    <input type="text" class="search-input otp-digit" maxlength="1" style="width: 48px; height: 54px; text-align: center; font-size: 1.4rem; font-weight: 800; color: #38bdf8;" required oninput="Auth.handleOtpDigitInput(this, 1)" onkeydown="Auth.handleOtpKeyDown(event, 1)">
+                    <input type="text" class="search-input otp-digit" maxlength="1" style="width: 48px; height: 54px; text-align: center; font-size: 1.4rem; font-weight: 800; color: #38bdf8;" required oninput="Auth.handleOtpDigitInput(this, 2)" onkeydown="Auth.handleOtpKeyDown(event, 2)">
+                    <input type="text" class="search-input otp-digit" maxlength="1" style="width: 48px; height: 54px; text-align: center; font-size: 1.4rem; font-weight: 800; color: #38bdf8;" required oninput="Auth.handleOtpDigitInput(this, 3)" onkeydown="Auth.handleOtpKeyDown(event, 3)">
+                    <input type="text" class="search-input otp-digit" maxlength="1" style="width: 48px; height: 54px; text-align: center; font-size: 1.4rem; font-weight: 800; color: #38bdf8;" required oninput="Auth.handleOtpDigitInput(this, 4)" onkeydown="Auth.handleOtpKeyDown(event, 4)">
+                    <input type="text" class="search-input otp-digit" maxlength="1" style="width: 48px; height: 54px; text-align: center; font-size: 1.4rem; font-weight: 800; color: #38bdf8;" required oninput="Auth.handleOtpDigitInput(this, 5)" onkeydown="Auth.handleOtpKeyDown(event, 5)">
+                </div>
+
+                <div style="background: rgba(99, 102, 241, 0.15); border: 1px solid var(--accent-primary); border-radius: 8px; padding: 0.6rem; margin-bottom: 1.2rem; font-size: 0.8rem; color: #a5b4fc;">
+                    💡 Demo OTP Hint: <strong id="otp-demo-hint-code" style="color: #38bdf8; font-size: 1rem; font-family: monospace;">......</strong>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="otp-verify-btn" style="width: 100%; justify-content: center; font-size: 1rem; padding: 0.75rem;">Verify & Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

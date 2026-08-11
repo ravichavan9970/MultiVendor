@@ -1,0 +1,49 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: multivendor-backend
+
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/multivendor_db?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:Ravi@123}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 10000
+
+  jpa:
+    open-in-view: false
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: false
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:schema-seed.sql
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b}
+    expiration-ms: 86400000 # 24 Hours
+
+  stripe:
+    secret-key: ${STRIPE_SECRET_KEY:sk_test_mock_secret_key_12345}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_mock_webhook_secret_12345}
+
+logging:
+  level:
+    com.multivendor: INFO
+    org.springframework.security: WARN

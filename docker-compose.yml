@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: multivendor_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: multivendor_db
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: multivendor
+      MYSQL_PASSWORD: multivendorpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: multivendor_backend
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      DB_URL: jdbc:mysql://mysqldb:3306/multivendor_db?useSSL=false&allowPublicKeyRetrieval=true
+      DB_USERNAME: multivendor
+      DB_PASSWORD: multivendorpassword
+      DB_DRIVER: com.mysql.cj.jdbc.Driver
+      JWT_SECRET: 9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b
+      FRONTEND_URL: http://localhost:5500
+    depends_on:
+      - mysqldb
+
+volumes:
+  mysql_data:
