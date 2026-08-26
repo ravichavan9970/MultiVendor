@@ -30,10 +30,14 @@
     <div style="max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem;">
         
         <!-- Vendor Profile Header -->
-        <div class="glass" style="padding: 1.8rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.8rem 2rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.2rem;">
             <div>
+                <div class="hero-tag" style="margin-bottom: 0.5rem;">
+                    <span class="dot"></span>
+                    <span>Provider Command Hub</span>
+                </div>
                 <h1 id="vendor-business-name" style="font-size: 1.8rem; margin-bottom: 0.3rem;">Vendor Business Portal</h1>
-                <p id="vendor-details" style="color: var(--text-secondary); font-size: 0.95rem;">Manage service offerings, publish availability slots, edit pricing, and track revenue.</p>
+                <p id="vendor-details" style="color: var(--text-secondary); font-size: 0.92rem;">Manage service offerings, publish availability slots, edit pricing, and track revenue.</p>
             </div>
             <div style="display: flex; gap: 0.8rem;">
                 <button class="btn btn-secondary" onclick="Profile.showProfileModal()">⚙️ Edit Profile</button>
@@ -42,22 +46,26 @@
         </div>
 
         <!-- Revenue Metrics Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
-            <div class="glass" style="padding: 1.5rem;">
-                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.4rem;">Total Earnings</div>
-                <div id="stat-revenue" style="font-size: 2rem; font-weight: 800; color: var(--accent-success);">$0.00</div>
+        <div class="metrics-hud" style="padding: 0; margin-bottom: 2rem;">
+            <div class="hud-card emerald">
+                <div class="hud-label">Total Earnings</div>
+                <div id="stat-revenue" class="hud-value" style="color: var(--brand-emerald);">$0.00</div>
+                <div class="hud-sub">Net cleared transactions</div>
             </div>
-            <div class="glass" style="padding: 1.5rem;">
-                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.4rem;">Confirmed Bookings</div>
-                <div id="stat-confirmed" style="font-size: 2rem; font-weight: 800; color: var(--accent-primary);">0</div>
+            <div class="hud-card">
+                <div class="hud-label">Confirmed Bookings</div>
+                <div id="stat-confirmed" class="hud-value">0</div>
+                <div class="hud-sub">Completed & scheduled</div>
             </div>
-            <div class="glass" style="padding: 1.5rem;">
-                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.4rem;">Active Holds / Pending</div>
-                <div id="stat-pending" style="font-size: 2rem; font-weight: 800; color: var(--accent-warning);">0</div>
+            <div class="hud-card amber">
+                <div class="hud-label">Active Holds / Pending</div>
+                <div id="stat-pending" class="hud-value" style="color: var(--brand-amber);">0</div>
+                <div class="hud-sub">In 10-min payment hold</div>
             </div>
-            <div class="glass" style="padding: 1.5rem;">
-                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.4rem;">Provider Rating</div>
-                <div id="stat-rating" style="font-size: 2rem; font-weight: 800; color: var(--accent-secondary);">5.0 ★</div>
+            <div class="hud-card purple">
+                <div class="hud-label">Provider Rating</div>
+                <div id="stat-rating" class="hud-value" style="color: #FBBF24;">5.0 ★</div>
+                <div class="hud-sub">Client satisfaction score</div>
             </div>
         </div>
 

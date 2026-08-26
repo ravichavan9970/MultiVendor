@@ -39,44 +39,47 @@
         </nav>
     </header>
 
-    <!-- Futuristic Hero Banner -->
+    <!-- Clean Hero Section -->
     <section class="hero">
         <div class="hero-tag">
-            <span>● 100% SECURE PERSISTENT DATABASE & CONCURRENCY LOCK</span>
+            <span class="dot"></span>
+            <span>Zero-Race Concurrency & Persistent Storage</span>
         </div>
-        <h1>Next-Gen Multi-Vendor Service Marketplace</h1>
-        <p>Connect with verified engineers, UI/UX architects, and system specialists. High-precision real-time scheduling with DB row-level pessimistic locks and automated meeting rooms.</p>
+        <h1>Book Verified Experts & Scale Your Engineering</h1>
+        <p>Direct real-time availability calendar scheduling with database-level pessimistic write locks, sandbox payment authorization, and automated video meeting rooms.</p>
     </section>
 
-    <!-- HUD Metrics Bar -->
+    <!-- Metrics HUD -->
     <section class="metrics-hud">
         <div class="hud-card">
-            <div class="hud-label">Verified Providers <span>★</span></div>
+            <div class="hud-label">Verified Providers</div>
             <div class="hud-value">7+ Labs</div>
             <div class="hud-sub">AI, Cloud, Security & Design</div>
         </div>
         <div class="hud-card purple">
-            <div class="hud-label">Pessimistic Lock <span>🔒</span></div>
+            <div class="hud-label">Pessimistic Lock</div>
             <div class="hud-value">0 Race</div>
             <div class="hud-sub">Zero Double-Booking Guarantee</div>
         </div>
         <div class="hud-card emerald">
-            <div class="hud-label">Database Storage <span>💾</span></div>
+            <div class="hud-label">Database Storage</div>
             <div class="hud-value">Persistent</div>
-            <div class="hud-sub">Disk File & Cloud Server DB</div>
+            <div class="hud-sub">Disk Storage & Cloud PostgreSQL</div>
         </div>
         <div class="hud-card amber">
-            <div class="hud-label">Instant Checkout <span>💳</span></div>
+            <div class="hud-label">Instant Checkout</div>
             <div class="hud-value">Sandbox</div>
             <div class="hud-sub">Real-Time Stripe Card Validation</div>
         </div>
     </section>
 
     <!-- Search & Filter Controls -->
-    <section class="filter-bar glass">
+    <section class="filter-bar">
         <div class="search-wrapper">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="search-input" class="search-input" placeholder="Search services, providers, keywords (e.g. Java, Docker, Next.js, RAG AI, Figma, Security)..." oninput="App.filterServices()">
+            <span class="search-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <input type="text" id="search-input" class="search-input" placeholder="Search services, skills, or providers (e.g. Java, Docker, React, Machine Learning, UI/UX)..." oninput="App.filterServices()">
         </div>
         <div class="category-pills">
             <button class="pill active" data-category="ALL" onclick="App.selectCategory('ALL', this)">All Specializations</button>

@@ -39,49 +39,52 @@
     </header>
 
     <!-- Customer Dashboard Ribbon -->
-    <div class="user-hero-ribbon glass">
+    <div class="user-hero-ribbon">
         <div>
-            <div class="hero-tag" style="margin-bottom: 0.5rem;">
-                <span>● CUSTOMER APPOINTMENT & BOOKING HUB</span>
+            <div class="hero-tag" style="margin-bottom: 0.6rem;">
+                <span class="dot"></span>
+                <span>Customer Workspace & Appointments</span>
             </div>
-            <h1 style="font-size: 1.8rem; font-weight: 800; color: white; margin-bottom: 0.3rem;">Customer Dashboard</h1>
-            <p style="color: var(--text-secondary); font-size: 0.92rem; margin: 0;">Explore live availability slots, book verified experts, join online video meetings, and manage payment receipts.</p>
+            <h1 style="font-size: 2rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.4rem;">Customer Dashboard</h1>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0; max-width: 650px;">Explore live availability slots, book verified experts, join online video meetings, and manage payment receipts.</p>
         </div>
         <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
-            <button class="btn btn-primary" onclick="Profile.showMyBookingsModal()">📅 View My Appointments</button>
-            <button class="btn btn-secondary" onclick="Profile.showProfileModal()">⚙️ Profile Settings</button>
+            <button class="btn btn-primary" onclick="Profile.showMyBookingsModal()">📅 My Appointments</button>
+            <button class="btn btn-secondary" onclick="Profile.showProfileModal()">⚙️ Settings</button>
         </div>
     </div>
 
     <!-- HUD Metrics Bar -->
     <section class="metrics-hud">
         <div class="hud-card">
-            <div class="hud-label">Verified Providers <span>★</span></div>
+            <div class="hud-label">Verified Providers</div>
             <div class="hud-value">7+ Labs</div>
             <div class="hud-sub">AI, Cloud, Security & Design</div>
         </div>
         <div class="hud-card purple">
-            <div class="hud-label">Pessimistic Lock <span>🔒</span></div>
+            <div class="hud-label">Pessimistic Lock</div>
             <div class="hud-value">0 Race</div>
             <div class="hud-sub">Zero Double-Booking Guarantee</div>
         </div>
         <div class="hud-card emerald">
-            <div class="hud-label">Database Storage <span>💾</span></div>
+            <div class="hud-label">Database Storage</div>
             <div class="hud-value">Persistent</div>
-            <div class="hud-sub">Disk File & Cloud Server DB</div>
+            <div class="hud-sub">Disk Storage & Cloud DB</div>
         </div>
         <div class="hud-card amber">
-            <div class="hud-label">Instant Checkout <span>💳</span></div>
+            <div class="hud-label">Instant Checkout</div>
             <div class="hud-value">Sandbox</div>
             <div class="hud-sub">Real-Time Stripe Card Validation</div>
         </div>
     </section>
 
     <!-- Search & Filter Controls -->
-    <section class="filter-bar glass">
+    <section class="filter-bar">
         <div class="search-wrapper">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="search-input" class="search-input" placeholder="Search services, providers, keywords (e.g. Java, Docker, Next.js, RAG AI, Figma, Security)..." oninput="App.filterServices()">
+            <span class="search-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <input type="text" id="search-input" class="search-input" placeholder="Search services, skills, or providers (e.g. Java, Docker, React, Machine Learning, UI/UX)..." oninput="App.filterServices()">
         </div>
         <div class="category-pills">
             <button class="pill active" data-category="ALL" onclick="App.selectCategory('ALL', this)">All Specializations</button>
@@ -90,6 +93,7 @@
             <button class="pill" data-category="CONSULTING" onclick="App.selectCategory('CONSULTING', this)">Cloud & Security</button>
         </div>
     </section>
+
 
     <!-- Service Marketplace Cards -->
     <main class="grid-container" id="services-grid">

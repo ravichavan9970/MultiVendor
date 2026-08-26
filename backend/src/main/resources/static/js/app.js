@@ -34,20 +34,23 @@ const App = {
             const vendorName = svc.vendor ? svc.vendor.businessName : 'Verified Provider';
             const vendorEmail = (svc.vendor && svc.vendor.user && svc.vendor.user.email) ? svc.vendor.user.email : 'provider@multivendor.ai';
             const rating = (svc.vendor && svc.vendor.rating) ? svc.vendor.rating.toFixed(1) : '4.9';
-            const location = (svc.vendor && svc.vendor.location) ? svc.vendor.location : 'Global / Remote';
+            const initials = vendorName.split(' ').filter(n => n.length > 0).map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'VP';
 
             return `
-                <div class="service-card glass" onclick="App.openBookingModal(${svc.id})">
+                <div class="service-card" onclick="App.openBookingModal(${svc.id})">
                     <div>
                         <div class="card-header">
-                            <div class="vendor-info">
-                                <span class="vendor-title">${vendorName}</span>
-                                <div class="vendor-meta-row">
-                                    <a href="mailto:${vendorEmail}" class="email-sticker" onclick="event.stopPropagation();" title="Email ${vendorEmail}">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                                        <span class="email-text">${vendorEmail}</span>
-                                    </a>
-                                    <span class="rating-badge">★ ${rating}</span>
+                            <div class="vendor-profile-box">
+                                <div class="vendor-avatar">${initials}</div>
+                                <div class="vendor-info">
+                                    <span class="vendor-title" title="${vendorName}">${vendorName}</span>
+                                    <div class="vendor-meta-row">
+                                        <a href="mailto:${vendorEmail}" class="email-sticker" onclick="event.stopPropagation();" title="Contact ${vendorEmail}">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                            <span>${vendorEmail}</span>
+                                        </a>
+                                        <span class="rating-badge">★ ${rating}</span>
+                                    </div>
                                 </div>
                             </div>
                             <span class="badge badge-${svc.category.toLowerCase()}">${svc.category}</span>
@@ -57,12 +60,12 @@ const App = {
                     </div>
                     <div class="card-footer">
                         <div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">Session Duration</div>
+                            <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Duration</div>
                             <span style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 600;">⏱ ${svc.durationMinutes} mins</span>
                         </div>
-                        <div style="text-align: right;">
+                        <div style="display: flex; align-items: center; gap: 0.85rem;">
                             <span class="price-tag">$${svc.price.toFixed(2)}</span>
-                            <div style="font-size: 0.75rem; color: var(--cyan-neon); font-weight: 700; margin-top: 0.2rem;">Book Slot →</div>
+                            <button class="btn btn-primary" style="padding: 0.4rem 0.85rem; font-size: 0.82rem;" onclick="event.stopPropagation(); App.openBookingModal(${svc.id})">Book Session →</button>
                         </div>
                     </div>
                 </div>
