@@ -44,17 +44,19 @@ const App = {
                                 <div class="vendor-avatar">${initials}</div>
                                 <div class="vendor-info">
                                     <span class="vendor-title" title="${vendorName}">${vendorName}</span>
-                                    <div class="vendor-meta-row">
-                                        <a href="mailto:${vendorEmail}" class="email-sticker" onclick="event.stopPropagation();" title="Contact ${vendorEmail}">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                                            <span>${vendorEmail}</span>
-                                        </a>
-                                        <span class="rating-badge">★ ${rating}</span>
-                                    </div>
                                 </div>
                             </div>
                             <span class="badge badge-${svc.category.toLowerCase()}">${svc.category}</span>
                         </div>
+                        
+                        <div class="vendor-meta-row" style="margin-bottom: 0.85rem;">
+                            <a href="mailto:${vendorEmail}" class="email-sticker" onclick="event.stopPropagation();" title="Contact ${vendorEmail}">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                <span>${vendorEmail}</span>
+                            </a>
+                            <span class="rating-badge">★ ${rating}</span>
+                        </div>
+
                         <h3 class="service-title">${svc.title}</h3>
                         <p class="service-desc">${svc.description || 'Verified enterprise engineering and consulting session.'}</p>
                     </div>
