@@ -17,36 +17,36 @@
             <span class="logo-text">Vendor.Command</span>
         </a>
 
-        <div style="margin-left: 1.5rem; font-size: 0.78rem; font-weight: 700; color: var(--emerald-neon); background: rgba(0, 245, 160, 0.08); border: 1px solid rgba(0, 245, 160, 0.25); padding: 0.25rem 0.75rem; border-radius: 999px;">
+        <div class="vendor-status-badge">
             ● VENDOR MANAGEMENT ACTIVE
         </div>
 
         <nav class="nav-links" style="margin-left: auto;">
-            <button class="btn btn-secondary" onclick="Profile.showProfileModal()">⚙️ Business Settings</button>
+            <button class="btn btn-secondary" onclick="Profile.showProfileModal()">⚙️ Settings</button>
             <button class="btn btn-danger" style="padding: 0.45rem 0.8rem; font-size: 0.8rem;" onclick="Auth.logout()">Log Out</button>
         </nav>
     </header>
 
-    <div style="max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem;">
+    <div class="vendor-page-container">
         
         <!-- Vendor Profile Header -->
-        <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.8rem 2rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.2rem;">
-            <div>
-                <div class="hero-tag" style="margin-bottom: 0.5rem;">
+        <div class="vendor-profile-card">
+            <div style="flex: 1; min-width: 0;">
+                <div class="hero-tag" style="margin-bottom: 0.4rem;">
                     <span class="dot"></span>
                     <span>Provider Command Hub</span>
                 </div>
-                <h1 id="vendor-business-name" style="font-size: 1.8rem; margin-bottom: 0.3rem;">Vendor Business Portal</h1>
-                <p id="vendor-details" style="color: var(--text-secondary); font-size: 0.92rem;">Manage service offerings, publish availability slots, edit pricing, and track revenue.</p>
+                <h1 id="vendor-business-name" class="vendor-business-heading">Vendor Business Portal</h1>
+                <p id="vendor-details" class="vendor-business-sub">Manage service offerings, publish availability slots, edit pricing, and track revenue.</p>
             </div>
-            <div style="display: flex; gap: 0.8rem;">
+            <div class="vendor-action-buttons">
                 <button class="btn btn-secondary" onclick="Profile.showProfileModal()">⚙️ Edit Profile</button>
-                <button class="btn btn-primary" onclick="Vendor.showCreateServiceModal()">+ Create New Service</button>
+                <button class="btn btn-primary" onclick="Vendor.showCreateServiceModal()">➕ New Service</button>
             </div>
         </div>
 
         <!-- Revenue Metrics Grid -->
-        <div class="metrics-hud" style="padding: 0; margin-bottom: 2rem;">
+        <div class="metrics-hud" style="padding: 0; margin-bottom: 1.5rem;">
             <div class="hud-card emerald">
                 <div class="hud-label">Total Earnings</div>
                 <div id="stat-revenue" class="hud-value" style="color: var(--brand-emerald);">$0.00</div>
@@ -70,16 +70,18 @@
         </div>
 
         <!-- Analytics Chart & Slot Generator Row -->
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-bottom: 2.5rem;">
+        <div class="vendor-grid-row">
             <!-- Chart.js Revenue Visualizer -->
-            <div class="glass" style="padding: 1.5rem;">
-                <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Revenue & Bookings Trend</h3>
-                <canvas id="revenueChart" height="200"></canvas>
+            <div class="glass chart-card" style="padding: 1.25rem;">
+                <h3 style="margin-bottom: 0.8rem; font-size: 1rem;">📊 Revenue & Bookings Trend</h3>
+                <div style="position: relative; height: 160px; width: 100%;">
+                    <canvas id="revenueChart"></canvas>
+                </div>
             </div>
 
             <!-- Batch Availability Generator -->
-            <div class="glass" style="padding: 1.5rem;">
-                <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">⚡ Batch Slot Schedule Generator</h3>
+            <div class="glass" style="padding: 1.25rem;">
+                <h3 style="margin-bottom: 0.8rem; font-size: 1rem;">⚡ Batch Slot Schedule Generator</h3>
                 <form onsubmit="Vendor.handleBatchGenerate(event)">
                     <div style="margin-bottom: 0.8rem;">
                         <label style="font-size: 0.8rem; display: block; margin-bottom: 0.3rem;">Target Service</label>

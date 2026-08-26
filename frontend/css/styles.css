@@ -1297,6 +1297,59 @@ a {
         padding: 0.2rem 0.5rem;
     }
     
+/* Vendor Dashboard Base & Mobile Layout */
+.vendor-page-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.vendor-status-badge {
+    margin-left: 1.5rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--brand-emerald);
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+}
+
+.vendor-profile-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.8rem 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+}
+
+.vendor-business-heading {
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+}
+
+.vendor-business-sub {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+}
+
+.vendor-action-buttons {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.vendor-grid-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
     /* Customer Hub Ribbon */
     .user-hero-ribbon {
         padding: 1.4rem;
@@ -1306,9 +1359,51 @@ a {
         gap: 1.2rem;
     }
     
-    /* Vendor 2-Column Grid on Mobile */
-    div[style*="grid-template-columns: 2fr 1fr"] {
+    /* Vendor Mobile Layout */
+    .vendor-page-container {
+        padding: 0 0.8rem;
+        margin: 1rem auto;
+    }
+
+    .vendor-status-badge {
+        display: none; /* Hide on mobile so navbar doesn't wrap */
+    }
+
+    .vendor-profile-card {
+        padding: 1.2rem 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .vendor-business-heading {
+        font-size: 1.35rem;
+        line-height: 1.3;
+    }
+
+    .vendor-business-sub {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+
+    .vendor-action-buttons {
+        width: 100%;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .vendor-action-buttons .btn {
+        flex: 1;
+        justify-content: center;
+        padding: 0.55rem 0.5rem;
+        font-size: 0.82rem;
+    }
+
+    .vendor-grid-row {
         grid-template-columns: 1fr !important;
+        gap: 1.2rem;
+        margin-bottom: 1.8rem;
     }
     
     /* Steps and Features 2-Column Responsive Layout */
