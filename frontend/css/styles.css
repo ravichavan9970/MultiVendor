@@ -787,6 +787,34 @@ a {
     max-width: 340px;
 }
 
+.db-status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--brand-emerald);
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 999px;
+    margin-top: 1rem;
+}
+
+.db-status-chip .dot-live {
+    width: 6px;
+    height: 6px;
+    background: var(--brand-emerald);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--brand-emerald);
+    animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+
 .footer-column h4 {
     font-size: 0.85rem;
     font-weight: 700;
