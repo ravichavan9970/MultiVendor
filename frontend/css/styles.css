@@ -1283,18 +1283,81 @@ a {
         grid-template-columns: 1fr !important;
     }
     
-    /* Steps and Features */
+    /* Steps and Features 2-Column Responsive Layout */
     .section-wrapper {
-        margin-bottom: 3.5rem;
+        margin-bottom: 2.8rem;
         padding: 0 1rem;
     }
     
-    .section-title {
-        font-size: 1.7rem;
+    .section-header {
+        margin-bottom: 1.8rem;
     }
     
-    .steps-grid, .features-grid {
-        grid-template-columns: 1fr;
+    .section-title {
+        font-size: clamp(1.4rem, 5.5vw, 1.8rem);
+        margin-bottom: 0.4rem;
+    }
+    
+    .section-subtitle {
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+    
+    .steps-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+    }
+    
+    .step-card {
+        padding: 1.1rem 0.95rem;
+        border-radius: var(--radius-md);
+    }
+    
+    .step-number {
+        width: 32px;
+        height: 32px;
+        font-size: 1.05rem;
+        border-radius: 8px;
+        margin-bottom: 0.6rem;
+    }
+    
+    .step-title {
+        font-size: 0.92rem;
+        margin-bottom: 0.25rem;
+        line-height: 1.3;
+    }
+    
+    .step-desc {
+        font-size: 0.76rem;
+        line-height: 1.45;
+        color: var(--text-secondary);
+    }
+    
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+    }
+    
+    .feature-card {
+        padding: 1.1rem 0.95rem;
+        border-radius: var(--radius-md);
+    }
+    
+    .feature-icon {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .feature-title {
+        font-size: 0.92rem;
+        margin-bottom: 0.25rem;
+        line-height: 1.3;
+    }
+    
+    .feature-desc {
+        font-size: 0.76rem;
+        line-height: 1.45;
+        color: var(--text-secondary);
     }
     
     /* Modals */
@@ -1336,19 +1399,41 @@ a {
         width: 100%;
     }
     
-    /* Footer */
+    /* Footer 2-Column Responsive Layout */
     .footer {
-        padding: 2.5rem 1rem 1.5rem;
+        padding: 2.8rem 1rem 1.8rem;
     }
     
     .footer-container {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.8rem;
+        margin-bottom: 2rem;
+    }
+    
+    .footer-brand {
+        grid-column: 1 / -1;
+    }
+    
+    .footer-brand p {
+        font-size: 0.85rem;
+        line-height: 1.5;
+        color: var(--text-secondary);
+    }
+    
+    .footer-column h4 {
+        font-size: 0.78rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .footer-links a {
+        font-size: 0.82rem;
+        color: var(--text-secondary);
     }
     
     .footer-bottom {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.6rem;
+        font-size: 0.75rem;
     }
 }
