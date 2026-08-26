@@ -42,9 +42,12 @@ const App = {
                         <div class="card-header">
                             <div>
                                 <span class="vendor-title">${vendorName}</span>
-                                <div style="display: flex; gap: 0.4rem; align-items: center; margin-top: 0.3rem;">
-                                    <a href="mailto:${vendorEmail}" class="email-sticker" onclick="event.stopPropagation();" title="Email Provider">📧 ${vendorEmail}</a>
-                                    <span style="font-size: 0.72rem; color: var(--amber-neon);">★ ${rating}</span>
+                                <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 0.35rem; flex-wrap: wrap;">
+                                    <a href="mailto:${vendorEmail}" class="email-sticker" onclick="event.stopPropagation();" title="Email ${vendorEmail}">
+                                        <span class="email-icon">✉️</span>
+                                        <span class="email-text">${vendorEmail}</span>
+                                    </a>
+                                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--amber-neon);">★ ${rating}</span>
                                 </div>
                             </div>
                             <span class="badge badge-${svc.category.toLowerCase()}">${svc.category}</span>

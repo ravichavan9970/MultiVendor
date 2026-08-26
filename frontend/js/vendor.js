@@ -122,8 +122,11 @@ const Vendor = {
                         <td style="padding: 0.8rem; font-family: monospace; font-size: 0.8rem;">${b.bookingReference.substring(0, 8)}...</td>
                         <td style="padding: 0.8rem; font-weight: 600; color: white;">${b.customerName}</td>
                         <td style="padding: 0.8rem; font-size: 0.85rem;">
-                            <a href="mailto:${customerEmail}" class="email-sticker" onclick="event.stopPropagation();" title="Click to email customer">${customerEmail}</a>
-                            <div style="font-size: 0.75rem; color: var(--accent-secondary); margin-top: 0.2rem;">📞 ${customerPhone}</div>
+                            <a href="mailto:${customerEmail}" class="email-sticker" onclick="event.stopPropagation();" title="Email customer">
+                                <span class="email-icon">✉️</span>
+                                <span class="email-text">${customerEmail}</span>
+                            </a>
+                            <div style="font-size: 0.75rem; color: var(--accent-secondary); margin-top: 0.3rem;">📞 ${customerPhone}</div>
                         </td>
                         <td style="padding: 0.8rem;">${b.serviceTitle}</td>
                         <td style="padding: 0.8rem; font-size: 0.85rem; color: var(--accent-secondary);">${new Date(b.startTime).toLocaleString()}</td>
@@ -400,7 +403,7 @@ const Vendor = {
         const mailtoUrl = `mailto:${customerEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
         document.getElementById('detail-customer-name').textContent = booking.customerName || 'Customer';
-        document.getElementById('detail-customer-email').innerHTML = `<a href="${mailtoUrl}" class="email-sticker" title="Click to open mail app & compose pre-filled email">${customerEmail}</a>`;
+        document.getElementById('detail-customer-email').innerHTML = `<a href="${mailtoUrl}" class="email-sticker" title="Click to open mail app & compose pre-filled email"><span class="email-icon">✉️</span><span class="email-text">${customerEmail}</span></a>`;
         document.getElementById('detail-customer-phone').innerHTML = `<a href="tel:${customerPhone}" style="color: var(--accent-secondary); text-decoration: underline;">${customerPhone}</a>`;
         document.getElementById('detail-service-title').textContent = booking.serviceTitle;
         document.getElementById('detail-slot-time').textContent = formattedTime;
