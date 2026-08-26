@@ -6,8 +6,15 @@ const Vendor = {
     async init() {
         const user = Api.getUser();
         if (!user || (user.role !== 'VENDOR' && user.role !== 'ADMIN')) {
-            Api.showToast('Vendor access required', 'info');
-            window.location.href = 'index.html';
+            Auth.showLoginModal();
+            const emailInput = document.getElementById('login-email');
+            const passInput = document.getElementById('login-password');
+            if (emailInput && passInput) {
+                emailInput.value = 'vendor.alex@multivendor.com';
+                passInput.value = 'password123';
+            }
+            const regRole = document.getElementById('reg-role');
+            if (regRole) regRole.value = 'VENDOR';
             return;
         }
 
