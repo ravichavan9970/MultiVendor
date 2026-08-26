@@ -123,7 +123,7 @@ const Vendor = {
                         <td style="padding: 0.8rem; font-weight: 600; color: white;">${b.customerName}</td>
                         <td style="padding: 0.8rem; font-size: 0.85rem;">
                             <a href="mailto:${customerEmail}" class="email-sticker" onclick="event.stopPropagation();" title="Email customer">
-                                <span class="email-icon">✉️</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                                 <span class="email-text">${customerEmail}</span>
                             </a>
                             <div style="font-size: 0.75rem; color: var(--accent-secondary); margin-top: 0.3rem;">📞 ${customerPhone}</div>
@@ -403,7 +403,7 @@ const Vendor = {
         const mailtoUrl = `mailto:${customerEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
         document.getElementById('detail-customer-name').textContent = booking.customerName || 'Customer';
-        document.getElementById('detail-customer-email').innerHTML = `<a href="${mailtoUrl}" class="email-sticker" title="Click to open mail app & compose pre-filled email"><span class="email-icon">✉️</span><span class="email-text">${customerEmail}</span></a>`;
+        document.getElementById('detail-customer-email').innerHTML = `<a href="${mailtoUrl}" class="email-sticker" title="Click to open mail app & compose pre-filled email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg><span class="email-text">${customerEmail}</span></a>`;
         document.getElementById('detail-customer-phone').innerHTML = `<a href="tel:${customerPhone}" style="color: var(--accent-secondary); text-decoration: underline;">${customerPhone}</a>`;
         document.getElementById('detail-service-title').textContent = booking.serviceTitle;
         document.getElementById('detail-slot-time').textContent = formattedTime;
