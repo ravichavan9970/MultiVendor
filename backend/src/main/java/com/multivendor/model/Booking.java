@@ -41,6 +41,15 @@ public class Booking {
     @Column(name = "customer_notes", length = 1000)
     private String customerNotes;
 
+    @Column(name = "utr_number", length = 50)
+    private String utrNumber;
+
+    @Column(name = "payment_method", length = 30)
+    private String paymentMethod = "UPI_QR";
+
+    @Column(name = "payment_submitted_at")
+    private LocalDateTime paymentSubmittedAt;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -91,6 +100,15 @@ public class Booking {
 
     public String getCustomerNotes() { return customerNotes; }
     public void setCustomerNotes(String customerNotes) { this.customerNotes = customerNotes; }
+
+    public String getUtrNumber() { return utrNumber; }
+    public void setUtrNumber(String utrNumber) { this.utrNumber = utrNumber; }
+
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
+
+    public LocalDateTime getPaymentSubmittedAt() { return paymentSubmittedAt; }
+    public void setPaymentSubmittedAt(LocalDateTime paymentSubmittedAt) { this.paymentSubmittedAt = paymentSubmittedAt; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

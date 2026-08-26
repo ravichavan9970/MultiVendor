@@ -146,6 +146,39 @@
             </div>
         </div>
 
+        <!-- UPI & UTR Payment Verification Hub (Admin/Vendor Confirmation) -->
+        <div class="glass" style="padding: 1.5rem; margin-bottom: 2.5rem; border: 1px solid rgba(99, 102, 241, 0.35); background: linear-gradient(180deg, rgba(99, 102, 241, 0.05) 0%, var(--bg-surface) 100%);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.2rem;">
+                        <span style="font-size: 1.3rem;">📲</span>
+                        <h3 style="font-size: 1.2rem; margin: 0;">UPI & UTR Payment Verification Hub</h3>
+                        <span id="pending-utr-count" class="badge badge-amber" style="font-size: 0.75rem;">0 Pending</span>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Verify customer-submitted 12-digit UPI UTR / Transaction reference numbers & confirm bookings.</p>
+                </div>
+                <button class="btn btn-secondary" style="font-size: 0.82rem; padding: 0.4rem 0.8rem;" onclick="Vendor.loadPendingVerifications()">🔄 Refresh UTR Queue</button>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--border-glass); color: var(--text-secondary); font-size: 0.82rem;">
+                            <th style="padding: 0.75rem;">Customer</th>
+                            <th style="padding: 0.75rem;">Service & Amount</th>
+                            <th style="padding: 0.75rem;">Submitted 12-Digit UTR</th>
+                            <th style="padding: 0.75rem;">Slot Schedule</th>
+                            <th style="padding: 0.75rem;">Status</th>
+                            <th style="padding: 0.75rem; text-align: right;">Admin Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="utr-verification-body">
+                        <!-- Rendered dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Bookings Management Table -->
         <div class="glass" style="padding: 1.5rem; margin-bottom: 4rem;">
             <h3 style="margin-bottom: 1.2rem; font-size: 1.2rem;">📅 Incoming Customer Bookings & Appointments</h3>

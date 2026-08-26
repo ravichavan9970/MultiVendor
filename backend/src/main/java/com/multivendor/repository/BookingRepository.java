@@ -20,6 +20,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findByCustomerIdOrderByCreatedAtDesc(Long customerId);
 
+    List<Booking> findByStatusOrderByCreatedAtDesc(BookingStatus status);
+
     @Query("SELECT b FROM Booking b WHERE b.service.vendor.id = :vendorId OR b.service.vendor.user.id = :vendorId OR b.service.vendor.user.id IN (SELECT v.user.id FROM VendorProfile v WHERE v.id = :vendorId) ORDER BY b.createdAt DESC")
     List<Booking> findByVendorId(@Param("vendorId") Long vendorId);
 

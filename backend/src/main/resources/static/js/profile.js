@@ -198,28 +198,33 @@ const Profile = {
                 const hoursPassed = (now - createdTime) / (1000 * 60 * 60);
                 const isCancellable = b.status !== 'CANCELLED' && hoursPassed <= 1.0;
 
-                const meetingLink = b.meetingLink || 'https://meet.google.com/dae-zpiu-oau';
+                const isPending = b.status === 'PENDING_ADMIN_VERIFICATION';
+                const isConfirmed = b.status === 'CONFIRMED';
+                const statusBadge = isPending 
+                    ? `<span class="badge badge-amber" style="font-size:0.75rem;">⏳ UTR Pending Admin Verification</span>`
+                    : `<span class="badge badge-${b.status.toLowerCase()}">${b.status}</span>`;
 
                 return `
                 <div class="glass" style="padding: 1.2rem; margin-bottom: 1rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
                     <div>
-                        <div style="display:flex; gap:0.5rem; align-items:center; margin-bottom:0.3rem;">
+                        <div style="display:flex; gap:0.5rem; align-items:center; margin-bottom:0.3rem; flex-wrap:wrap;">
                             <span style="font-weight:700; font-size:1.1rem; color:white;">${b.serviceTitle}</span>
-                            <span class="badge badge-${b.status.toLowerCase()}">${b.status}</span>
+                            ${statusBadge}
                         </div>
                         <div style="font-size:0.85rem; color:var(--accent-secondary);">Provider: ${b.vendorBusinessName}</div>
                         <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.3rem;">
                             📅 ${new Date(b.startTime).toLocaleString()} | Ref: <code style="color:#a5b4fc;">${b.bookingReference.substring(0,8)}...</code>
+                            ${b.utrNumber ? `<span style="margin-left:0.6rem; color:#818cf8; font-weight:600;">(UTR: ${b.utrNumber})</span>` : ''}
                         </div>
                     </div>
                     <div style="text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:0.4rem;">
                         <div style="font-size:1.3rem; font-weight:800; color:var(--accent-success);">$${b.totalAmount.toFixed(2)}</div>
                         <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
-                            <a href="${meetingLink}" target="_blank" class="btn btn-secondary" style="font-size:0.75rem; padding:0.35rem 0.7rem; text-decoration:none; color:#38bdf8; border-color:rgba(56, 189, 248, 0.4);">🎥 Join Video Meeting</a>
+                            ${isConfirmed ? `<a href="${meetingLink}" target="_blank" class="btn btn-secondary" style="font-size:0.75rem; padding:0.35rem 0.7rem; text-decoration:none; color:#38bdf8; border-color:rgba(56, 189, 248, 0.4);">🎥 Join Video Meeting</a>` : ''}
                             <button class="btn btn-secondary" style="font-size:0.75rem; padding:0.35rem 0.7rem;" onclick="Profile.showReceiptByRef('${b.bookingReference}')">Receipt</button>
                             ${isCancellable ? `
                                 <button class="btn btn-danger" style="font-size:0.75rem; padding:0.35rem 0.7rem;" onclick="Profile.cancelBooking(${b.id})">Cancel Appointment</button>
-                            ` : (b.status !== 'CANCELLED' ? `<span style="font-size:0.75rem; color:var(--text-secondary); opacity:0.7;">Non-Cancellable (>1h)</span>` : '')}
+                            ` : (b.status !== 'CANCELLED' && !isPending ? `<span style="font-size:0.75rem; color:var(--text-secondary); opacity:0.7;">Non-Cancellable (>1h)</span>` : '')}
                         </div>
                     </div>
                 </div>

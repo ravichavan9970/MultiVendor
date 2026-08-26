@@ -37,6 +37,25 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.createBookingHold(currentUser.getId(), request, originUrl));
     }
 
+    @PostMapping("/submit-utr")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<BookingResponse> submitUtr(@AuthenticationPrincipal UserPrincipal currentUser,
+                                                     @Valid @RequestBody SubmitUtrRequest request) {
+        return ResponseEntity.ok(bookingService.submitUtr(currentUser.getId(), request));
+    }
+
+    @PostMapping("/verify-utr")
+    @PreAuthorize("hasAnyRole('VENDOR', 'ADMIN')")
+    public ResponseEntity<BookingResponse> verifyUtr(@Valid @RequestBody VerifyUtrRequest request) {
+        return ResponseEntity.ok(bookingService.verifyUtrByAdmin(request));
+    }
+
+    @GetMapping("/pending-verifications")
+    @PreAuthorize("hasAnyRole('VENDOR', 'ADMIN')")
+    public ResponseEntity<List<BookingResponse>> getPendingVerifications() {
+        return ResponseEntity.ok(bookingService.getPendingVerifications());
+    }
+
     @PostMapping("/confirm-mock")
     public ResponseEntity<BookingResponse> confirmMockBooking(@RequestBody MockWebhookRequest request) {
         return ResponseEntity.ok(bookingService.confirmPaymentAndBooking(request.getBookingReference()));

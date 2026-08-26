@@ -57,7 +57,7 @@ const Calendar = {
 
         const btn = document.getElementById('confirm-hold-btn');
         btn.disabled = true;
-        btn.innerHTML = '🔒 Locking Slot & Redirecting to Stripe...';
+        btn.innerHTML = '🔒 Locking Slot & Generating UPI QR...';
 
         try {
             const customerNotes = document.getElementById('booking-customer-notes')?.value || '';
@@ -70,34 +70,102 @@ const Calendar = {
             });
 
             this.activeBookingHold = bookingResponse;
-            Api.showToast('🔒 Pessimistic Lock acquired! Launching Stripe Gateway...', 'success');
+            Api.showToast('🔒 Slot locked! Scan UPI QR to complete payment.', 'success');
 
-            // Redirect directly to real Stripe Checkout Gateway
-            if (bookingResponse.checkoutUrl) {
-                setTimeout(() => {
-                    window.location.href = bookingResponse.checkoutUrl;
-                }, 500);
-            } else {
-                // Fallback direct confirmation
-                const confirmed = await Api.request('/bookings/confirm-mock', {
-                    method: 'POST',
-                    body: JSON.stringify({ bookingReference: bookingResponse.bookingReference })
-                });
-                App.closeBookingModal();
-                Profile.showReceipt(
-                    confirmed.bookingReference,
-                    confirmed.serviceTitle,
-                    confirmed.vendorBusinessName,
-                    confirmed.totalAmount,
-                    confirmed.createdAt || new Date(),
-                    confirmed.meetingLink,
-                    confirmed.startTime,
-                    confirmed.endTime
-                );
-            }
+            btn.disabled = false;
+            btn.innerHTML = 'Proceed to UPI / QR Code Payment 📲';
+
+            App.closeBookingModal();
+            this.openUpiModal(bookingResponse);
+
         } catch (error) {
             btn.disabled = false;
-            btn.innerHTML = 'Proceed to Secure Payment Gateway 💳';
+            btn.innerHTML = 'Proceed to UPI / QR Code Payment 📲';
+        }
+    },
+
+    openUpiModal(booking) {
+        document.getElementById('upi-service-title').textContent = booking.serviceTitle;
+        document.getElementById('upi-vendor-name').textContent = `Provider: ${booking.vendorBusinessName}`;
+        document.getElementById('upi-booking-ref').textContent = booking.bookingReference.substring(0, 8) + '...';
+        
+        const price = booking.totalAmount.toFixed(2);
+        document.getElementById('upi-total-price').textContent = `$${price}`;
+
+        // UPI URI Format: upi://pay?pa=VPA&pn=NAME&am=AMOUNT&cu=INR&tn=NOTE
+        const upiVpa = 'multivendor.pay@okaxis';
+        const upiNote = `Booking-${booking.bookingReference.substring(0, 8)}`;
+        const upiUri = `upi://pay?pa=${encodeURIComponent(upiVpa)}&pn=${encodeURIComponent(booking.vendorBusinessName)}&am=${price}&cu=INR&tn=${encodeURIComponent(upiNote)}`;
+        
+        // Generate Live Dynamic QR Code via QRServer API
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiUri)}&color=6366f1&bgcolor=0E131F`;
+        document.getElementById('upi-qr-img').src = qrUrl;
+
+        // Set app deep links
+        document.getElementById('upi-gpay-btn').href = upiUri;
+        document.getElementById('upi-phonepe-btn').href = upiUri;
+        document.getElementById('upi-paytm-btn').href = upiUri;
+
+        // Clear previous UTR inputs
+        document.getElementById('upi-utr-input').value = '';
+        if (document.getElementById('upi-notes-input')) document.getElementById('upi-notes-input').value = '';
+
+        document.getElementById('upi-payment-modal').classList.add('active');
+    },
+
+    closeUpiModal() {
+        document.getElementById('upi-payment-modal').classList.remove('active');
+    },
+
+    copyUpiId() {
+        navigator.clipboard.writeText('multivendor.pay@okaxis');
+        Api.showToast('📋 UPI ID copied to clipboard: multivendor.pay@okaxis', 'info');
+    },
+
+    async submitUtrNumber(event) {
+        event.preventDefault();
+        const utrNumber = document.getElementById('upi-utr-input').value.trim();
+        const notes = document.getElementById('upi-notes-input')?.value.trim() || '';
+
+        if (!utrNumber || utrNumber.length < 6) {
+            Api.showToast('Please enter a valid 12-digit UTR / Transaction Reference Number!', 'warning');
+            return;
+        }
+
+        const btn = document.getElementById('upi-submit-btn');
+        btn.disabled = true;
+        btn.innerHTML = '⏳ Submitting UTR for Admin Verification...';
+
+        try {
+            const resp = await Api.request('/bookings/submit-utr', {
+                method: 'POST',
+                body: JSON.stringify({
+                    bookingReference: this.activeBookingHold.bookingReference,
+                    utrNumber: utrNumber,
+                    notes: notes
+                })
+            });
+
+            btn.disabled = false;
+            btn.innerHTML = '🚀 Submit UTR for Admin Verification';
+            this.closeUpiModal();
+
+            Api.showToast('🎉 UTR Submitted! Admin will verify and confirm your booking.', 'success');
+            
+            // Show receipt/pending modal
+            Profile.showReceipt(
+                resp.bookingReference,
+                resp.serviceTitle,
+                resp.vendorBusinessName,
+                resp.totalAmount,
+                resp.createdAt || new Date(),
+                resp.meetingLink,
+                resp.startTime,
+                resp.endTime
+            );
+        } catch (error) {
+            btn.disabled = false;
+            btn.innerHTML = '🚀 Submit UTR for Admin Verification';
         }
     }
 };

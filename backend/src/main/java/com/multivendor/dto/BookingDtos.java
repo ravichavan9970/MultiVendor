@@ -36,6 +36,9 @@ public class BookingDtos {
         private LocalDateTime holdExpiresAt;
         private String stripeCheckoutUrl;
         private String meetingLink;
+        private String utrNumber;
+        private String paymentMethod;
+        private LocalDateTime paymentSubmittedAt;
         private LocalDateTime createdAt;
 
         public BookingResponse(Long id, String bookingReference, String customerName, String customerEmail,
@@ -43,6 +46,7 @@ public class BookingDtos {
                                String vendorBusinessName, String serviceTitle, LocalDateTime startTime,
                                LocalDateTime endTime, BigDecimal totalAmount, BookingStatus status,
                                LocalDateTime holdExpiresAt, String stripeCheckoutUrl, String meetingLink,
+                               String utrNumber, String paymentMethod, LocalDateTime paymentSubmittedAt,
                                LocalDateTime createdAt) {
             this.id = id;
             this.bookingReference = bookingReference;
@@ -59,6 +63,9 @@ public class BookingDtos {
             this.holdExpiresAt = holdExpiresAt;
             this.stripeCheckoutUrl = stripeCheckoutUrl;
             this.meetingLink = meetingLink;
+            this.utrNumber = utrNumber;
+            this.paymentMethod = paymentMethod;
+            this.paymentSubmittedAt = paymentSubmittedAt;
             this.createdAt = createdAt;
         }
 
@@ -77,7 +84,47 @@ public class BookingDtos {
         public LocalDateTime getHoldExpiresAt() { return holdExpiresAt; }
         public String getStripeCheckoutUrl() { return stripeCheckoutUrl; }
         public String getMeetingLink() { return meetingLink; }
+        public String getUtrNumber() { return utrNumber; }
+        public String getPaymentMethod() { return paymentMethod; }
+        public LocalDateTime getPaymentSubmittedAt() { return paymentSubmittedAt; }
         public LocalDateTime getCreatedAt() { return createdAt; }
+    }
+
+    public static class SubmitUtrRequest {
+        @NotNull
+        private String bookingReference;
+
+        @NotNull
+        private String utrNumber;
+
+        private String notes;
+
+        public String getBookingReference() { return bookingReference; }
+        public void setBookingReference(String bookingReference) { this.bookingReference = bookingReference; }
+
+        public String getUtrNumber() { return utrNumber; }
+        public void setUtrNumber(String utrNumber) { this.utrNumber = utrNumber; }
+
+        public String getNotes() { return notes; }
+        public void setNotes(String notes) { this.notes = notes; }
+    }
+
+    public static class VerifyUtrRequest {
+        @NotNull
+        private String bookingReference;
+
+        private boolean approve = true;
+
+        private String rejectionReason;
+
+        public String getBookingReference() { return bookingReference; }
+        public void setBookingReference(String bookingReference) { this.bookingReference = bookingReference; }
+
+        public boolean isApprove() { return approve; }
+        public void setApprove(boolean approve) { this.approve = approve; }
+
+        public String getRejectionReason() { return rejectionReason; }
+        public void setRejectionReason(String rejectionReason) { this.rejectionReason = rejectionReason; }
     }
 
     public static class MockWebhookRequest {

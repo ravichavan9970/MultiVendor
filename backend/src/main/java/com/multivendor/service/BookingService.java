@@ -143,6 +143,62 @@ public class BookingService {
         return mapToResponse(updated, null);
     }
 
+    @Transactional
+    public BookingResponse submitUtr(Long customerUserId, SubmitUtrRequest request) {
+        Booking booking = bookingRepository.findByBookingReference(request.getBookingReference())
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found with reference: " + request.getBookingReference()));
+
+        booking.setUtrNumber(request.getUtrNumber().trim());
+        booking.setPaymentMethod("UPI_QR");
+        booking.setPaymentSubmittedAt(LocalDateTime.now());
+        booking.setStatus(BookingStatus.PENDING_ADMIN_VERIFICATION);
+        // Extend hold by 24 hours while admin verifies UTR
+        booking.setHoldExpiresAt(LocalDateTime.now().plusHours(24));
+        if (request.getNotes() != null && !request.getNotes().isBlank()) {
+            booking.setCustomerNotes((booking.getCustomerNotes() != null ? booking.getCustomerNotes() + " | " : "") + request.getNotes().trim());
+        }
+
+        Booking saved = bookingRepository.save(booking);
+        log.info("💳 Customer submitted UTR #{} for Booking Reference: {}. Status set to PENDING_ADMIN_VERIFICATION", request.getUtrNumber(), request.getBookingReference());
+        return mapToResponse(saved, null);
+    }
+
+    @Transactional
+    public BookingResponse verifyUtrByAdmin(VerifyUtrRequest request) {
+        Booking booking = bookingRepository.findByBookingReference(request.getBookingReference())
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found with reference: " + request.getBookingReference()));
+
+        AvailabilitySlot slot = booking.getSlot();
+
+        if (request.isApprove()) {
+            booking.setStatus(BookingStatus.CONFIRMED);
+            booking.setUpdatedAt(LocalDateTime.now());
+            if (slot != null) {
+                slot.setStatus(SlotStatus.BOOKED);
+                slotRepository.save(slot);
+            }
+            log.info("✅ Admin APPROVED UTR #{} for Booking Reference: {}. Booking CONFIRMED!", booking.getUtrNumber(), booking.getBookingReference());
+        } else {
+            booking.setStatus(BookingStatus.CANCELLED);
+            booking.setUpdatedAt(LocalDateTime.now());
+            if (slot != null) {
+                slot.setStatus(SlotStatus.AVAILABLE);
+                slotRepository.save(slot);
+            }
+            log.info("❌ Admin REJECTED UTR #{} for Booking Reference: {}. Reason: {}. Slot released.", booking.getUtrNumber(), booking.getBookingReference(), request.getRejectionReason());
+        }
+
+        Booking saved = bookingRepository.save(booking);
+        return mapToResponse(saved, null);
+    }
+
+    public List<BookingResponse> getPendingVerifications() {
+        return bookingRepository.findByStatusOrderByCreatedAtDesc(BookingStatus.PENDING_ADMIN_VERIFICATION)
+                .stream()
+                .map(b -> mapToResponse(b, null))
+                .collect(Collectors.toList());
+    }
+
     public List<BookingResponse> getCustomerBookings(Long customerId) {
         return bookingRepository.findByCustomerIdOrderByCreatedAtDesc(customerId)
                 .stream()
@@ -160,12 +216,17 @@ public class BookingService {
     /**
      * Scheduled Background Cleanup Daemon:
      * Runs every 60 seconds to release un-paid booking holds after 10 minutes.
+     * Skips bookings with status PENDING_ADMIN_VERIFICATION.
      */
     @Scheduled(fixedDelay = 60000)
     @Transactional
     public void releaseExpiredHolds() {
         List<Booking> expiredBookings = bookingRepository.findExpiredHolds(LocalDateTime.now());
         for (Booking booking : expiredBookings) {
+            // Do not expire if customer already submitted UTR
+            if (booking.getStatus() == BookingStatus.PENDING_ADMIN_VERIFICATION) {
+                continue;
+            }
             booking.setStatus(BookingStatus.CANCELLED);
             booking.getSlot().setStatus(SlotStatus.AVAILABLE);
 
@@ -197,6 +258,9 @@ public class BookingService {
                 booking.getHoldExpiresAt(),
                 checkoutUrl,
                 meetingLink,
+                booking.getUtrNumber(),
+                booking.getPaymentMethod(),
+                booking.getPaymentSubmittedAt(),
                 booking.getCreatedAt()
         );
     }

@@ -29,6 +29,7 @@ const Vendor = {
 
         await this.loadVendorData();
         await this.loadVendorServices();
+        await this.loadPendingVerifications();
         await this.loadVendorBookings();
     },
 
@@ -171,6 +172,85 @@ const Vendor = {
         } catch (error) {
             console.error('Vendor Bookings:', error);
             tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:1.5rem; color:var(--text-secondary);">No incoming customer bookings recorded yet.</td></tr>';
+        }
+    },
+
+    async loadPendingVerifications() {
+        const tbody = document.getElementById('utr-verification-body');
+        const badge = document.getElementById('pending-utr-count');
+        if (!tbody) return;
+
+        try {
+            const list = await Api.request('/bookings/pending-verifications');
+            if (badge) badge.textContent = `${list ? list.length : 0} Pending`;
+
+            if (!list || list.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:1.5rem; color:var(--text-secondary);">🎉 All UPI & UTR payments verified! No pending requests.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = list.map(b => {
+                const utr = b.utrNumber || 'N/A';
+                return `
+                    <tr style="border-bottom: 1px solid var(--border-glass);">
+                        <td style="padding: 0.8rem;">
+                            <div style="font-weight: 700; color: white;">${b.customerName}</div>
+                            <div style="font-size: 0.75rem; color: var(--text-secondary);">${b.customerEmail} | ${b.customerPhone || ''}</div>
+                        </td>
+                        <td style="padding: 0.8rem;">
+                            <div style="font-weight: 600;">${b.serviceTitle}</div>
+                            <div style="font-weight: 800; color: var(--accent-success); font-size: 0.95rem;">$${b.totalAmount.toFixed(2)}</div>
+                        </td>
+                        <td style="padding: 0.8rem;">
+                            <div style="display: flex; align-items: center; gap: 0.4rem;">
+                                <span class="badge" style="background: rgba(99, 102, 241, 0.15); color: #818cf8; font-family: monospace; font-size: 0.88rem; font-weight: 700; padding: 0.3rem 0.6rem; border: 1px solid rgba(99, 102, 241, 0.4);">${utr}</span>
+                                <button class="btn btn-secondary" style="padding: 0.2rem 0.45rem; font-size: 0.72rem;" onclick="navigator.clipboard.writeText('${utr}'); Api.showToast('Copied UTR: ${utr}', 'info');">📋</button>
+                            </div>
+                            <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 0.2rem;">Ref: ${b.bookingReference.substring(0, 8)}...</div>
+                        </td>
+                        <td style="padding: 0.8rem; font-size: 0.82rem; color: var(--accent-secondary);">
+                            ${new Date(b.startTime).toLocaleString()}
+                        </td>
+                        <td style="padding: 0.8rem;">
+                            <span class="badge badge-amber" style="font-size: 0.75rem;">⏳ Needs Verification</span>
+                        </td>
+                        <td style="padding: 0.8rem; text-align: right;">
+                            <div style="display: flex; gap: 0.4rem; justify-content: flex-end;">
+                                <button class="btn btn-primary" style="background: var(--brand-emerald); border-color: var(--brand-emerald); padding: 0.35rem 0.75rem; font-size: 0.78rem;" onclick="Vendor.verifyUtr('${b.bookingReference}', true)">✅ Approve & Confirm</button>
+                                <button class="btn btn-danger" style="padding: 0.35rem 0.65rem; font-size: 0.78rem;" onclick="Vendor.verifyUtr('${b.bookingReference}', false)">❌ Reject</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        } catch (e) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:1.5rem; color:var(--text-secondary);">No pending UTR verifications.</td></tr>';
+        }
+    },
+
+    async verifyUtr(bookingRef, approve) {
+        let reason = null;
+        if (!approve) {
+            reason = prompt('Please enter a reason for rejecting this UTR (or leave empty):', 'Invalid or unreceived transaction number');
+            if (reason === null) return;
+        }
+
+        try {
+            await Api.request('/bookings/verify-utr', {
+                method: 'POST',
+                body: JSON.stringify({
+                    bookingReference: bookingRef,
+                    approve: approve,
+                    rejectionReason: reason
+                })
+            });
+
+            Api.showToast(approve ? '✅ UTR Approved! Booking confirmed and slot locked.' : '❌ UTR Rejected. Slot released back to public marketplace.', approve ? 'success' : 'info');
+            await this.loadPendingVerifications();
+            await this.loadVendorBookings();
+            await this.loadVendorData();
+        } catch (e) {
+            // Handled
         }
     },
 
