@@ -19,7 +19,7 @@ const Vendor = {
         }
 
         // Restore cached vendor services immediately
-        const cached = localStorage.getItem('mv_vendor_services');
+        const cached = localStorage.getItem('mv_persistent_vendor_services') || localStorage.getItem('mv_vendor_services');
         if (cached) {
             try {
                 this.services = JSON.parse(cached);
@@ -27,10 +27,57 @@ const Vendor = {
             } catch (e) {}
         }
 
+        await this.syncLocalBackupToServer();
         await this.loadVendorData();
         await this.loadVendorServices();
         await this.loadPendingVerifications();
         await this.loadVendorBookings();
+    },
+
+    async syncLocalBackupToServer() {
+        const token = Api.getToken();
+        if (!token) return;
+
+        try {
+            const serverServices = await Api.request('/services').catch(() => []);
+            const localBackup = localStorage.getItem('mv_persistent_vendor_services') || localStorage.getItem('mv_vendor_services');
+            
+            // If server database restarted/wiped but local storage has user services:
+            if ((!serverServices || serverServices.length === 0) && localBackup) {
+                const items = JSON.parse(localBackup);
+                if (items && items.length > 0) {
+                    console.log('🔄 Auto-syncing and permanently storing local services to backend server...');
+                    for (const svc of items) {
+                        try {
+                            const created = await Api.request('/services', {
+                                method: 'POST',
+                                body: JSON.stringify({
+                                    title: svc.title,
+                                    category: svc.category || 'TUTORING',
+                                    price: svc.price,
+                                    durationMinutes: svc.durationMinutes || 60,
+                                    meetingLink: svc.meetingLink || 'https://meet.google.com/dae-zpiu-oau',
+                                    description: svc.description || ''
+                                })
+                            });
+                            // Auto generate 7 days of recurring slots
+                            if (created && created.id) {
+                                await Api.request('/slots/batch-generate', {
+                                    method: 'POST',
+                                    body: JSON.stringify({
+                                        serviceId: created.id,
+                                        daysAhead: 7,
+                                        startHour: 9,
+                                        endHour: 17,
+                                        slotDurationMinutes: 60
+                                    })
+                                }).catch(() => {});
+                            }
+                        } catch (err) {}
+                    }
+                }
+            }
+        } catch (e) {}
     },
 
     async loadVendorData() {
@@ -59,10 +106,21 @@ const Vendor = {
 
         try {
             const fresh = await Api.request('/services');
-            if (fresh) {
+            if (fresh && fresh.length > 0) {
                 this.services = fresh;
                 localStorage.setItem('mv_vendor_services', JSON.stringify(fresh));
                 localStorage.setItem('mv_cached_services', JSON.stringify(fresh));
+                localStorage.setItem('mv_persistent_vendor_services', JSON.stringify(fresh));
+            } else if (fresh && fresh.length === 0) {
+                const persistent = localStorage.getItem('mv_persistent_vendor_services');
+                if (persistent) {
+                    try {
+                        const parsed = JSON.parse(persistent);
+                        if (parsed && parsed.length > 0) {
+                            this.services = parsed;
+                        }
+                    } catch (e) {}
+                }
             }
             
             // Populate Batch Slot Generator Dropdown

@@ -26,10 +26,32 @@ const App = {
 
         try {
             const freshServices = await Api.request('/services');
-            if (freshServices) {
+            if (freshServices && freshServices.length > 0) {
                 this.services = freshServices;
                 localStorage.setItem('mv_cached_services', JSON.stringify(freshServices));
+                localStorage.setItem('mv_persistent_vendor_services', JSON.stringify(freshServices));
                 this.renderServices(this.services);
+            } else if (freshServices && freshServices.length === 0) {
+                // If server is clean or restarted, restore from persistent client backup
+                const persistent = localStorage.getItem('mv_persistent_vendor_services') || localStorage.getItem('mv_cached_services');
+                if (persistent) {
+                    try {
+                        const parsed = JSON.parse(persistent);
+                        if (parsed && parsed.length > 0) {
+                            this.services = parsed;
+                            this.renderServices(this.services);
+                        } else {
+                            this.services = [];
+                            this.renderServices([]);
+                        }
+                    } catch (e) {
+                        this.services = [];
+                        this.renderServices([]);
+                    }
+                } else {
+                    this.services = [];
+                    this.renderServices([]);
+                }
             }
         } catch (error) {
             if (!this.services || this.services.length === 0) {
