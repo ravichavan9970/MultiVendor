@@ -51,6 +51,16 @@ public class ServiceItem {
         this.price = price;
     }
 
+    public ServiceItem(VendorProfile vendor, String title, String description, String category, Integer durationMinutes, BigDecimal price, String meetingLink) {
+        this.vendor = vendor;
+        this.title = title;
+        this.description = description;
+        this.category = category;
+        this.durationMinutes = durationMinutes;
+        this.price = price;
+        this.meetingLink = meetingLink;
+    }
+
     // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

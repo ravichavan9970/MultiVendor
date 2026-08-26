@@ -8,31 +8,31 @@ spring:
     name: multivendor-backend
 
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/multivendor_db?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&serverTimezone=UTC}
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:Ravi@123}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL:jdbc:h2:file:./data/multivendordb;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1;MODE=MySQL}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
     hikari:
       maximum-pool-size: 10
-      minimum-idle: 5
+      minimum-idle: 2
       idle-timeout: 30000
       connection-timeout: 10000
 
   jpa:
     open-in-view: false
-    defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
     show-sql: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-        format_sql: false
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
 
   sql:
     init:
-      mode: always
-      data-locations: classpath:schema-seed.sql
+      mode: never
 
 app:
   jwt:

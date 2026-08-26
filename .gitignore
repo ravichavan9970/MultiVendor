@@ -1,0 +1,17 @@
+/.metadata/
+target/
+**/target/
+data/
+**/data/
+.settings/
+**/.settings/
+.classpath
+**/.classpath
+.project
+**/.project
+bin/
+**/bin/
+*.class
+*.log
+.DS_Store
+Thumbs.db

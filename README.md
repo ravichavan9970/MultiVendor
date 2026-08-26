@@ -55,32 +55,49 @@ sequenceDiagram
 
 ## 🚀 Quick Start Guide
 
-### Option 1: Run with Docker Compose (Recommended)
-
-```bash
-docker compose up --build
-```
-* **Frontend Marketplace**: Open `http://localhost:5500` or serve `frontend/index.html` with Live Server.
-* **Backend REST API**: `http://localhost:8081`
-* **Swagger API Docs**: `http://localhost:8081/swagger-ui.html`
-
-### Option 2: Run Spring Boot Locally (In-Memory H2 / MySQL)
+### Option 1: Run Fullstack Spring Boot (Single Command - Recommended)
 
 ```bash
 cd backend
 mvn spring-boot:run
 ```
 
-Access H2 Database Console at `http://localhost:8081/h2-console` (JDBC URL: `jdbc:h2:mem:multivendordb`).
+* **Dedicated User Marketplace**: `http://localhost:8081/user.html` (or `http://localhost:8081`)
+* **Dedicated Vendor Command Portal**: `http://localhost:8081/vendor.html`
+* **Backend REST API**: `http://localhost:8081/api/v1`
+* **Swagger API Docs**: `http://localhost:8081/swagger-ui.html`
+* **Persistent DB Web Console**: `http://localhost:8081/h2-console` (JDBC URL: `jdbc:h2:file:./data/multivendordb`)
+
+### Option 2: Run with Standalone Frontend Server
+
+```bash
+cd frontend
+npx serve -l 5500
+```
+* **User Marketplace**: `http://localhost:5500/user.html`
+* **Vendor Portal**: `http://localhost:5500/vendor.html`
 
 ---
 
-## 🔑 Demo Login Credentials
+## 💾 Permanent Database Architecture & Cloud Servers
 
-| Role | Email | Password | Features |
+* **Permanent Disk Database**: By default, data is stored permanently on disk in `./data/multivendordb.mv.db`. No local MySQL installation is needed!
+* **Cloud Database Support**: Easily connect to any Cloud PostgreSQL or MySQL server (Neon, Supabase, Railway, Aiven, AWS RDS) by providing standard environment variables:
+  ```powershell
+  $env:DB_URL="jdbc:postgresql://<your-cloud-db-host>/multivendordb?sslmode=require"
+  $env:DB_USERNAME="<db-user>"
+  $env:DB_PASSWORD="<db-password>"
+  ```
+* **Non-Destructive Initialization**: Demo accounts and services are only initialized if the database is brand new. All user registrations, bookings, and slots persist permanently across server restarts.
+
+---
+
+## 🔑 Demo Login Credentials (1-Click Autofill in UI)
+
+| Role | Email | Password | Dedicated Portal & Features |
 |---|---|---|---|
-| **Customer** | `customer.john@gmail.com` | `password123` | Browse catalog, select availability slots, trigger Stripe payment hold |
-| **Vendor** | `vendor.alex@multivendor.com` | `password123` | Create services, batch generate slots, view Chart.js revenue stats |
+| **Customer** | `customer.john@gmail.com` | `password123` | **`user.html`**: Category filters, live search, 3D card payment, "My Appointments", invoice receipts |
+| **Vendor** | `vendor.alex@multivendor.com` | `password123` | **`vendor.html`**: Glowing Chart.js analytics, service CRUD, batch slot generator, customer order feed |
 | **Admin** | `admin@multivendor.com` | `password123` | System metrics, vendor approval, user management |
 
 ---
@@ -103,22 +120,26 @@ mvn test
 
 ```text
 MultiVendor/
-├── backend/                  # Java 21 Spring Boot 3 API
+├── backend/                  # Java 21 Spring Boot 3 Fullstack API & Server
 │   ├── src/main/java/com/multivendor/
-│   │   ├── config/           # Security, CORS, Stripe, Swagger Config
-│   │   ├── controller/       # Auth, Services, Vendors, Bookings, Webhooks
+│   │   ├── config/           # Security, DataInitializer, CORS, Stripe, Swagger
+│   │   ├── controller/       # Auth, Services, Vendors, Bookings, Users, Admin
 │   │   ├── dto/              # Request/Response DTOs
 │   │   ├── model/            # JPA Entities (User, Vendor, Service, Slot, Booking)
 │   │   ├── repository/       # JPA Repositories with Pessimistic Locking
-│   │   └── service/          # Core Business Logic & Scheduled Cleanup
+│   │   └── service/          # Core Business Logic, Cleanup & Notification
+│   ├── src/main/resources/
+│   │   ├── application.yml   # Persistent Disk & Cloud DB Configuration
+│   │   └── static/           # Spring Boot Served Futuristic Fullstack UI
 │   └── src/test/             # JUnit 5 & Concurrency Tests
-├── frontend/                 # Glassmorphism UI
-│   ├── index.html            # Marketplace Catalog UI
+├── frontend/                 # Futuristic Cyber-Glassmorphism UI
+│   ├── index.html            # Customer Marketplace Portal
+│   ├── user.html             # Dedicated Customer / User Portal
+│   ├── vendor.html           # Dedicated Vendor Command Center
 │   ├── vendor-dashboard.html # Vendor Hub & Chart.js Analytics
-│   ├── css/styles.css        # Design system & dark theme tokens
-│   └── js/                   # API, Auth, Calendar, Vendor JS modules
-├── database/schema.sql       # MySQL DDL & Seed Data
-├── docs/                     # ERD & Concurrency Locking Guides
+│   ├── css/styles.css        # Cyberpunk & Deep Space Glassmorphism Design System
+│   └── js/                   # API, Auth, Calendar, Vendor, Profile JS modules
+├── credentials.txt           # Credentials & Run Instructions
 └── docker-compose.yml
 ```
 
@@ -126,7 +147,7 @@ MultiVendor/
 
 ## 💼 Resume Bullet Point Template
 
-> **Full Stack Engineer | MultiVendor Booking Platform**
-> * *Built a high-concurrency service booking marketplace using **Java 21, Spring Boot 3, Spring Data JPA, and MySQL** supporting real-time availability calendars and Stripe Sandbox payments.*
+> **Full Stack Engineer | MultiVendor Enterprise Platform**
+> * *Built a high-concurrency service booking marketplace using **Java 21, Spring Boot 3, Spring Data JPA, and Persistent Database Storage** supporting real-time availability calendars and Stripe Sandbox payments.*
 > * *Designed database row-level **pessimistic write locks (`SELECT FOR UPDATE`)** and background `@Scheduled` cleanup daemons to eliminate double-booking race conditions under high parallel traffic.*
-> * *Developed stateless **JWT authentication & Role-Based Access Control (RBAC)** across Customer, Vendor, and Admin portals; containerized backend services using **Docker Compose**.*
+> * *Engineered dedicated **Customer and Vendor Portals** with an ultra-futuristic **Cyber-Glassmorphism UI**, real-time **Chart.js** revenue analytics, and batch availability schedule generation.*
