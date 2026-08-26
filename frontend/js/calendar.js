@@ -93,13 +93,16 @@ const Calendar = {
         document.getElementById('upi-total-price').textContent = `$${price}`;
 
         // UPI URI Format: upi://pay?pa=VPA&pn=NAME&am=AMOUNT&cu=INR&tn=NOTE
-        const upiVpa = 'multivendor.pay@okaxis';
+        const upiVpa = '7447661921@hdfc';
+        const payeeName = 'RAVINDRA LAXMAN CHAVAN';
         const upiNote = `Booking-${booking.bookingReference.substring(0, 8)}`;
-        const upiUri = `upi://pay?pa=${encodeURIComponent(upiVpa)}&pn=${encodeURIComponent(booking.vendorBusinessName)}&am=${price}&cu=INR&tn=${encodeURIComponent(upiNote)}`;
+        const upiUri = `upi://pay?pa=${encodeURIComponent(upiVpa)}&pn=${encodeURIComponent(payeeName)}&am=${price}&cu=INR&tn=${encodeURIComponent(upiNote)}`;
         
-        // Generate Live Dynamic QR Code via QRServer API
-        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiUri)}&color=6366f1&bgcolor=0E131F`;
-        document.getElementById('upi-qr-img').src = qrUrl;
+        // Use user's official HDFC QR Code image
+        const qrImg = document.getElementById('upi-qr-img');
+        if (qrImg) {
+            qrImg.src = 'img/upi-qr.jpg';
+        }
 
         // Set app deep links
         document.getElementById('upi-gpay-btn').href = upiUri;
@@ -118,8 +121,8 @@ const Calendar = {
     },
 
     copyUpiId() {
-        navigator.clipboard.writeText('multivendor.pay@okaxis');
-        Api.showToast('📋 UPI ID copied to clipboard: multivendor.pay@okaxis', 'info');
+        navigator.clipboard.writeText('7447661921@hdfc');
+        Api.showToast('📋 UPI ID copied to clipboard: 7447661921@hdfc', 'info');
     },
 
     async submitUtrNumber(event) {

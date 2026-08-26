@@ -270,22 +270,25 @@
 
             <!-- Interactive QR Code Visualizer -->
             <div style="text-align: center; margin-bottom: 1.2rem; background: #070a12; padding: 1.2rem; border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.3);">
-                <div style="display: inline-block; padding: 0.6rem; background: #FFFFFF; border-radius: 10px; box-shadow: 0 0 20px rgba(99, 102, 241, 0.25);">
-                    <img id="upi-qr-img" src="" alt="UPI QR Code" style="width: 190px; height: 190px; display: block; border-radius: 6px;">
+                <div style="font-size: 0.85rem; font-weight: 800; color: #FFFFFF; letter-spacing: 0.05em; margin-bottom: 0.8rem; text-transform: uppercase;">
+                    RAVINDRA LAXMAN CHAVAN
+                </div>
+                <div style="display: inline-block; padding: 0.5rem; background: #0b0f19; border: 2px solid rgba(99, 102, 241, 0.4); border-radius: 14px; box-shadow: 0 0 25px rgba(99, 102, 241, 0.3);">
+                    <img id="upi-qr-img" src="img/upi-qr.jpg" alt="HDFC UPI QR Code" style="width: 210px; height: 235px; object-fit: cover; display: block; border-radius: 10px;">
                 </div>
                 
                 <!-- UPI ID Copy Box -->
-                <div style="margin-top: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                <div style="margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
                     <span style="font-size: 0.8rem; color: var(--text-secondary);">UPI ID:</span>
-                    <code style="font-family: monospace; font-weight: 700; color: #818cf8; background: rgba(99, 102, 241, 0.12); padding: 0.25rem 0.6rem; border-radius: 6px; border: 1px solid rgba(99, 102, 241, 0.3);">multivendor.pay@okaxis</code>
-                    <button class="btn btn-secondary" style="padding: 0.25rem 0.55rem; font-size: 0.75rem;" onclick="Calendar.copyUpiId()">📋 Copy</button>
+                    <code style="font-family: monospace; font-weight: 800; font-size: 0.95rem; color: #818cf8; background: rgba(99, 102, 241, 0.15); padding: 0.3rem 0.75rem; border-radius: 8px; border: 1px solid rgba(99, 102, 241, 0.4);">7447661921@hdfc</code>
+                    <button type="button" class="btn btn-secondary" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;" onclick="Calendar.copyUpiId()">📋 Copy</button>
                 </div>
 
                 <!-- Instant Deep Links for Phone -->
-                <div style="margin-top: 0.8rem; display: flex; gap: 0.4rem; justify-content: center; flex-wrap: wrap;">
-                    <a id="upi-gpay-btn" href="#" class="btn btn-secondary" style="font-size: 0.74rem; padding: 0.3rem 0.6rem;">🟢 GPay</a>
-                    <a id="upi-phonepe-btn" href="#" class="btn btn-secondary" style="font-size: 0.74rem; padding: 0.3rem 0.6rem;">🟣 PhonePe</a>
-                    <a id="upi-paytm-btn" href="#" class="btn btn-secondary" style="font-size: 0.74rem; padding: 0.3rem 0.6rem;">🔷 Paytm</a>
+                <div style="margin-top: 0.9rem; display: flex; gap: 0.4rem; justify-content: center; flex-wrap: wrap;">
+                    <a id="upi-gpay-btn" href="upi://pay?pa=7447661921@hdfc&pn=RAVINDRA+LAXMAN+CHAVAN&cu=INR" class="btn btn-secondary" style="font-size: 0.74rem; padding: 0.35rem 0.65rem;">🟢 GPay</a>
+                    <a id="upi-phonepe-btn" href="upi://pay?pa=7447661921@hdfc&pn=RAVINDRA+LAXMAN+CHAVAN&cu=INR" class="btn btn-secondary" style="font-size: 0.74rem; padding: 0.35rem 0.65rem;">🟣 PhonePe</a>
+                    <a id="upi-paytm-btn" href="upi://pay?pa=7447661921@hdfc&pn=RAVINDRA+LAXMAN+CHAVAN&cu=INR" class="btn btn-secondary" style="font-size: 0.74rem; padding: 0.35rem 0.65rem;">🔷 Paytm</a>
                 </div>
             </div>
 
