@@ -444,6 +444,107 @@
         </div>
     </div>
 
+    <!-- Vendor Login Modal -->
+    <div class="modal-overlay" id="login-modal">
+        <div class="modal-content glass" style="max-width: 440px;">
+            <button class="modal-close" onclick="Auth.closeLoginModal()">✕</button>
+            <div class="hero-tag" style="margin-bottom: 0.8rem;">
+                <span class="dot"></span>
+                <span>Vendor Access Gateway</span>
+            </div>
+            <h2 style="margin-bottom: 0.4rem;">Vendor Command Login</h2>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 1.2rem;">Sign in to access your bookings, pricing tools, and revenue analytics.</p>
+            
+            <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: var(--radius-md); padding: 0.85rem; margin-bottom: 1.2rem;">
+                <div style="font-size: 0.76rem; color: #A5B4FC; font-weight: 700; text-transform: uppercase; margin-bottom: 0.4rem;">⚡ Quick Access Demo</div>
+                <button type="button" class="btn btn-primary" style="width: 100%; font-size: 0.82rem; padding: 0.45rem;" onclick="Auth.fillDemo('vendor')">🚀 Auto-Fill Demo Vendor (vendor.alex@multivendor.com)</button>
+            </div>
+
+            <form onsubmit="Auth.handleLogin(event)">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.4rem;">Vendor Email Address</label>
+                    <input type="text" id="login-email" class="search-input" placeholder="vendor.alex@multivendor.com" required style="width: 100%;" value="vendor.alex@multivendor.com">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.4rem;">Password</label>
+                    <input type="password" id="login-password" class="search-input" required style="width: 100%;" value="password123">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Authorize & Launch Dashboard</button>
+            </form>
+            
+            <div style="margin-top: 1.2rem; text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+                New provider? <a href="#" style="color: var(--brand-primary); font-weight: 600;" onclick="Auth.closeLoginModal(); Auth.showRegisterModal();">Register Business</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vendor Register Modal -->
+    <div class="modal-overlay" id="register-modal">
+        <div class="modal-content glass" style="max-width: 460px; overflow-x: hidden;">
+            <button class="modal-close" onclick="Auth.closeRegisterModal()">✕</button>
+            <h2 style="margin-bottom: 0.4rem;">Register Provider Account</h2>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 1.2rem;">Start offering high-concurrency consulting services.</p>
+            <form onsubmit="Auth.handleRegister(event)">
+                <div style="margin-bottom: 0.8rem;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.3rem;">Full Name / Provider Representative</label>
+                    <input type="text" id="reg-name" class="search-input" required style="width: 100%;">
+                </div>
+                <div style="margin-bottom: 0.8rem;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.3rem;">Business Email Address</label>
+                    <input type="email" id="reg-email" class="search-input" required style="width: 100%;">
+                </div>
+                <div style="margin-bottom: 0.8rem;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.3rem;">Mobile Contact</label>
+                    <div style="display: flex; gap: 0.5rem; width: 100%;">
+                        <select id="reg-country-code" class="search-input" style="width: 95px; flex-shrink: 0; padding: 0.5rem 0.4rem; color: white; background: #121a2b;">
+                            <option value="+1">🇺🇸 +1</option>
+                            <option value="+91" selected>🇮🇳 +91</option>
+                            <option value="+44">🇬🇧 +44</option>
+                            <option value="+61">🇦🇺 +61</option>
+                            <option value="+49">🇩🇪 +49</option>
+                        </select>
+                        <input type="tel" id="reg-phone" class="search-input" required style="flex: 1; min-width: 0;" placeholder="98765 43210">
+                    </div>
+                </div>
+                <div style="margin-bottom: 0.8rem;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 0.3rem;">Password</label>
+                    <input type="password" id="reg-password" class="search-input" required style="width: 100%;" minlength="6">
+                </div>
+                <input type="hidden" id="reg-role" value="VENDOR">
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send Verification OTP 📲</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 6-Digit OTP Verification Modal -->
+    <div class="modal-overlay" id="otp-modal">
+        <div class="modal-content glass" style="max-width: 440px; text-align: center;">
+            <button class="modal-close" onclick="Auth.closeOtpModal()">✕</button>
+            <div style="font-size: 2.5rem; margin-bottom: 0.4rem;">📲</div>
+            <h2 style="margin-bottom: 0.3rem;">Verify OTP Code</h2>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.2rem;">
+                Enter the 6-digit code sent to <br><strong style="color: #a5b4fc;" id="otp-target-display">your email</strong>.
+            </p>
+
+            <form onsubmit="Auth.handleVerifyOtp(event)">
+                <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.2rem;" id="otp-inputs-container">
+                    <input type="text" class="search-input otp-digit" maxlength="1" required oninput="Auth.handleOtpDigitInput(this, 0)" onkeydown="Auth.handleOtpKeyDown(event, 0)">
+                    <input type="text" class="search-input otp-digit" maxlength="1" required oninput="Auth.handleOtpDigitInput(this, 1)" onkeydown="Auth.handleOtpKeyDown(event, 1)">
+                    <input type="text" class="search-input otp-digit" maxlength="1" required oninput="Auth.handleOtpDigitInput(this, 2)" onkeydown="Auth.handleOtpKeyDown(event, 2)">
+                    <input type="text" class="search-input otp-digit" maxlength="1" required oninput="Auth.handleOtpDigitInput(this, 3)" onkeydown="Auth.handleOtpKeyDown(event, 3)">
+                    <input type="text" class="search-input otp-digit" maxlength="1" required oninput="Auth.handleOtpDigitInput(this, 4)" onkeydown="Auth.handleOtpKeyDown(event, 4)">
+                    <input type="text" class="search-input otp-digit" maxlength="1" required oninput="Auth.handleOtpDigitInput(this, 5)" onkeydown="Auth.handleOtpKeyDown(event, 5)">
+                </div>
+
+                <div style="background: rgba(99, 102, 241, 0.15); border: 1px solid var(--accent-primary); border-radius: 8px; padding: 0.6rem; margin-bottom: 1.2rem; font-size: 0.8rem; color: #a5b4fc;">
+                    💡 Demo OTP Hint: <strong id="otp-demo-hint-code" style="color: #38bdf8; font-size: 1rem; font-family: monospace;">......</strong>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="otp-verify-btn" style="width: 100%; justify-content: center; font-size: 1rem; padding: 0.75rem;">Verify & Create Vendor Account</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="js/config.js"></script>
     <script src="js/api.js"></script>
