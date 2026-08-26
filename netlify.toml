@@ -1,0 +1,12 @@
+﻿[build]
+  publish = "frontend"
+
+[[redirects]]
+  from = "/vendor"
+  to = "/vendor.html"
+  status = 200
+
+[[redirects]]
+  from = "/user"
+  to = "/user.html"
+  status = 200

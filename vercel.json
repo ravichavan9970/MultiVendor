@@ -1,0 +1,15 @@
+﻿{
+  "public": true,
+  "outputDirectory": "frontend",
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/vendor",
+      "destination": "/vendor.html"
+    },
+    {
+      "source": "/user",
+      "destination": "/user.html"
+    }
+  ]
+}
