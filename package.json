@@ -1,9 +1,9 @@
-﻿{
+{
   "name": "multivendor-platform",
   "version": "1.0.0",
   "description": "MultiVendor Enterprise - Next-Gen Service Marketplace with Persistent Storage",
   "scripts": {
-    "build": "echo 'Static build ready'",
+    "build": "echo Static build ready",
     "start:backend": "cd backend && mvn spring-boot:run",
     "start:customer": "npx serve frontend -l 5500",
     "start:vendor": "npx serve frontend -l 5501"
