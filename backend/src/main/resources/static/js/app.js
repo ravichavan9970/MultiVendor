@@ -26,7 +26,14 @@ const App = {
         if (!grid) return;
 
         if (!items || items.length === 0) {
-            grid.innerHTML = '<div style="color: var(--text-secondary); text-align: center; grid-column: 1/-1;">No services found in this category.</div>';
+            grid.innerHTML = `
+                <div style="color: var(--text-secondary); text-align: center; grid-column: 1/-1; padding: 3.5rem 1.5rem; background: var(--bg-surface); border: 1px dashed var(--border-subtle); border-radius: var(--radius-lg); margin: 1rem 0;">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.8rem;">⚡</div>
+                    <h3 style="color: #FFFFFF; font-size: 1.2rem; margin-bottom: 0.4rem;">No Services Listed Yet</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.88rem; max-width: 420px; margin: 0 auto 1.5rem; line-height: 1.5;">All default services have been cleared. Log into your Vendor Command Center to publish your first live service offering.</p>
+                    <a href="vendor.html" class="btn btn-primary" style="display: inline-flex; font-size: 0.9rem; padding: 0.6rem 1.4rem;">🛠️ Open Vendor Command Center</a>
+                </div>
+            `;
             return;
         }
 

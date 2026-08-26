@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/v1/services/**", "/api/v1/vendors/**", "/api/v1/slots/**").permitAll()
                 .requestMatchers("/api/v1/webhooks/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/api-docs/**", "/v3/api-docs/**", "/h2-console/**").permitAll()
-                .requestMatchers("/api/v1/admin/reset-system").permitAll()
+                .requestMatchers("/api/v1/admin/reset-system", "/api/v1/admin/clear-all-services").permitAll()
                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/v1/vendors/**").hasAnyRole("VENDOR", "ADMIN")
                 .requestMatchers("/api/v1/users/**").authenticated()

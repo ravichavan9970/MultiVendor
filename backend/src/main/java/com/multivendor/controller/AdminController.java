@@ -60,11 +60,27 @@ public class AdminController {
         return ResponseEntity.ok(summary);
     }
 
+    @PostMapping("/clear-all-services")
+    public ResponseEntity<Map<String, String>> clearAllServices() {
+        dataInitializer.clearAllServices();
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "All default services, slots, and bookings have been deleted successfully.");
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/clear-all-services")
+    public ResponseEntity<Map<String, String>> deleteServices() {
+        dataInitializer.clearAllServices();
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "All default services, slots, and bookings have been deleted successfully.");
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/reset-system")
     public ResponseEntity<Map<String, String>> resetSystem() {
         dataInitializer.resetAllData();
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Full system reset completed! Wiped all bookings, earnings, and custom users.");
+        response.put("message", "Full system reset completed! Database ready with clean accounts and zero default services.");
         return ResponseEntity.ok(response);
     }
 }

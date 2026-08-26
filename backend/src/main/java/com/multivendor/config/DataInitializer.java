@@ -62,116 +62,32 @@ public class DataInitializer implements CommandLineRunner {
         User customer = new User("customer.john@gmail.com", encodedPassword, "John Doe", "+1 5550209", Role.CUSTOMER);
         userRepository.save(customer);
 
-        // 3. Vendors & Services
+        // 3. Registered Vendor Accounts (Clean Slate with 0 Default Services)
         createVendorWithServices(
                 "vendor.alex@multivendor.com", encodedPassword, "Alex Rivera", "+1 5550202",
                 "Rivera Tech & Algorithms Academy", "TUTORING",
-                "Senior Software Engineer with 8+ years experience coaching Java, Data Structures, and System Design.",
+                "Senior Software Engineer coaching Java, Data Structures, and System Design.",
                 "San Francisco, CA (Remote)", BigDecimal.valueOf(85.00),
-                List.of(
-                        new ServiceSeed("1-on-1 Java & System Design Mock Interview",
-                                "60-minute intensive technical mock interview covering Spring Boot architecture, SQL locks, and live coding exercises with actionable feedback.",
-                                "TUTORING", 60, BigDecimal.valueOf(85.00), "https://meet.google.com/dae-zpiu-oau"),
-                        new ServiceSeed("Data Structures & Algorithms Deep-Dive",
-                                "60-minute problem-solving breakdown targeting LeetCode medium/hard patterns and code optimization.",
-                                "TUTORING", 60, BigDecimal.valueOf(75.00), "https://meet.google.com/dae-zpiu-oau"),
-                        new ServiceSeed("Code Review & Spring Boot Security Hardening",
-                                "Line-by-line code review of your Java backend focusing on Spring Security matchers, JWT secret safety, and transaction boundaries.",
-                                "TUTORING", 60, BigDecimal.valueOf(95.00), "https://meet.google.com/dae-zpiu-oau")
-                )
+                List.of()
         );
 
         createVendorWithServices(
                 "vendor.sarah@multivendor.com", encodedPassword, "Sarah Chen", "+1 5550203",
                 "PixelCraft Digital Design Studio", "FREELANCE",
-                "Award-winning UI/UX designer specializing in modern Web App interfaces, branding, and Figma design systems.",
+                "Award-winning UI/UX designer specializing in modern Web App interfaces and design systems.",
                 "New York, NY (Remote)", BigDecimal.valueOf(95.00),
-                List.of(
-                        new ServiceSeed("Complete UI/UX Audit & Figma Wireframing",
-                                "Direct consultation to overhaul your website user interface, color system, and user flow.",
-                                "FREELANCE", 60, BigDecimal.valueOf(95.00), "https://meet.google.com/dae-zpiu-oau"),
-                        new ServiceSeed("Design System & Mobile Component Library Audit",
-                                "Transform scattered UI components into a clean, reusable design token system for web and mobile platforms.",
-                                "FREELANCE", 60, BigDecimal.valueOf(110.00), "https://meet.google.com/dae-zpiu-oau")
-                )
+                List.of()
         );
 
         createVendorWithServices(
                 "vendor.marcus@multivendor.com", encodedPassword, "Marcus Vance", "+1 5550204",
                 "Apex Cloud & DevOps Engineering Lab", "CONSULTING",
-                "AWS Certified Solutions Architect helping startups scale cloud infrastructure, Kubernetes, and CI/CD pipelines.",
+                "AWS Certified Solutions Architect helping startups scale cloud infrastructure.",
                 "Austin, TX (Remote)", BigDecimal.valueOf(120.00),
-                List.of(
-                        new ServiceSeed("AWS & Kubernetes Infrastructure Audit",
-                                "Comprehensive 60-minute review of your cloud infrastructure, Terraform scripts, cost optimization, and CI/CD pipelines.",
-                                "CONSULTING", 60, BigDecimal.valueOf(120.00), "https://meet.google.com/dae-zpiu-oau"),
-                        new ServiceSeed("Docker & Microservices Scaling Consultation",
-                                "Hands-on session on containerizing legacy monoliths, service mesh setup, and zero-downtime deployment strategies.",
-                                "CONSULTING", 60, BigDecimal.valueOf(110.00), "https://meet.google.com/dae-zpiu-oau")
-                )
+                List.of()
         );
 
-        createVendorWithServices(
-                "vendor.elena@multivendor.com", encodedPassword, "Elena Rostova", "+1 5550205",
-                "Quantum AI & Machine Learning Studio", "FREELANCE",
-                "AI Systems Architect specializing in Large Language Models (LLM), RAG architecture, PyTorch, and Vector DBs.",
-                "Seattle, WA (Remote)", BigDecimal.valueOf(150.00),
-                List.of(
-                        new ServiceSeed("LLM Integration & RAG Pipeline Workshop",
-                                "Learn to build custom Retrieval-Augmented Generation (RAG) applications using LangChain, Vector Databases, and OpenAI APIs.",
-                                "FREELANCE", 90, BigDecimal.valueOf(150.00), "https://meet.google.com/dae-zpiu-oau"),
-                        new ServiceSeed("Python PyTorch & Deep Learning Model Audit",
-                                "Model performance profiling, hyperparameter tuning, and PyTorch deployment to GPU edge instances.",
-                                "FREELANCE", 60, BigDecimal.valueOf(130.00), "https://meet.google.com/dae-zpiu-oau")
-                )
-        );
-
-        createVendorWithServices(
-                "vendor.vikram@multivendor.com", encodedPassword, "Vikram Patel", "+1 5550206",
-                "CyberShield Security & Penetration Testing", "CONSULTING",
-                "Certified Information Systems Security Professional (CISSP) performing web vulnerability audits and OAuth2 security.",
-                "London, UK (Remote)", BigDecimal.valueOf(140.00),
-                List.of(
-                        new ServiceSeed("Web Application Vulnerability & OWASP Audit",
-                                "Deep security assessment covering SQL injection, XSS, CSRF, JWT validation flaws, and rate-limiting security headers.",
-                                "CONSULTING", 60, BigDecimal.valueOf(140.00), "https://meet.google.com/dae-zpiu-oau"),
-                        new ServiceSeed("API Authentication & OAuth2.0 Security Coaching",
-                                "Step-by-step guidance on implementing OAuth2, PKCE, Single Sign-On (SSO), and JWT refresh token rotation.",
-                                "CONSULTING", 45, BigDecimal.valueOf(95.00), "https://meet.google.com/dae-zpiu-oau")
-                )
-        );
-
-        createVendorWithServices(
-                "vendor.chloe@multivendor.com", encodedPassword, "Chloe Dubois", "+1 5550207",
-                "FullStack React & Next.js Design Lab", "FREELANCE",
-                "Frontend Architect specializing in Next.js App Router, SSR performance tuning, and glassmorphism design systems.",
-                "Paris, France (Remote)", BigDecimal.valueOf(90.00),
-                List.of(
-                        new ServiceSeed("React & Next.js Performance & SSR Optimization",
-                                "Audit your Next.js App Router, React Server Components (RSC), bundle size reduction, and Core Web Vitals score tuning.",
-                                "FREELANCE", 60, BigDecimal.valueOf(90.00), "https://meet.google.com/dae-zpiu-oau"),
-                        new ServiceSeed("Modern Glassmorphism & Micro-Animation Mastery",
-                                "Learn how to craft ultra-premium Dark Mode UIs with modern CSS variables, glassmorphism, dynamic gradients, and micro-animations.",
-                                "FREELANCE", 60, BigDecimal.valueOf(80.00), "https://meet.google.com/dae-zpiu-oau")
-                )
-        );
-
-        createVendorWithServices(
-                "vendor.david@multivendor.com", encodedPassword, "David Kim", "+1 5550208",
-                "Database Architecture & Performance Hub", "TUTORING",
-                "Principal Database Administrator focusing on high-throughput MySQL indexing, PostgreSQL tuning, and NoSQL schemas.",
-                "Chicago, IL (Remote)", BigDecimal.valueOf(105.00),
-                List.of(
-                        new ServiceSeed("MySQL & PostgreSQL Indexing & Query Tuning",
-                                "Master EXPLAIN ANALYZE, B-Tree vs Hash indexes, deadlock prevention, and multi-million row SQL query optimization.",
-                                "TUTORING", 60, BigDecimal.valueOf(100.00), "https://meet.google.com/dae-zpiu-oau"),
-                        new ServiceSeed("NoSQL vs Relational Schema Architecture Review",
-                                "Architectural deep-dive to pick the right DB engine (MySQL, MongoDB, Redis, Cassandra) for your high-throughput app.",
-                                "TUTORING", 60, BigDecimal.valueOf(105.00), "https://meet.google.com/dae-zpiu-oau")
-                )
-        );
-
-        log.info("✅ Database initialization complete! Demo users, services, and dynamic availability slots created.");
+        log.info("✅ Database initialization complete! Demo accounts ready with zero default services.");
     }
 
     private void createVendorWithServices(String email, String password, String fullName, String phone,
@@ -223,6 +139,14 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 
+    public void clearAllServices() {
+        log.info("🧹 Wiping all services, availability slots, and bookings...");
+        bookingRepository.deleteAll();
+        availabilitySlotRepository.deleteAll();
+        serviceItemRepository.deleteAll();
+        log.info("✅ All services, slots, and bookings deleted cleanly.");
+    }
+
     public void resetAllData() {
         log.info("🧹 Initiating FULL Database Reset from Admin Panel...");
         bookingRepository.deleteAll();
@@ -231,7 +155,7 @@ public class DataInitializer implements CommandLineRunner {
         vendorProfileRepository.deleteAll();
         userRepository.deleteAll();
         initSeedData();
-        log.info("✨ Full Reset Complete! Database reseeded with default demo data.");
+        log.info("✨ Full Reset Complete! Database reseeded with clean accounts and zero default services.");
     }
 
     private static class ServiceSeed {
