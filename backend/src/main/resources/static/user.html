@@ -18,7 +18,8 @@
 
         <!-- Portal Navigation Switcher -->
         <div class="portal-switch">
-            <a href="index.html" class="active">⚡ Customer Portal</a>
+            <a href="index.html">🌐 Public Home</a>
+            <a href="user.html" class="active">⚡ Customer Dashboard</a>
             <a href="vendor.html">🛠️ Vendor Command</a>
         </div>
 
@@ -30,7 +31,7 @@
             <div id="user-profile" style="display: none; align-items: center; gap: 0.8rem;">
                 <button class="btn btn-secondary" onclick="Profile.showMyBookingsModal()">📅 My Appointments</button>
                 <button class="btn btn-secondary" onclick="Profile.showProfileModal()">
-                    <span id="user-role-badge" class="badge badge-confirmed" style="margin-right: 0.3rem;">USER</span>
+                    <span id="user-role-badge" class="badge badge-confirmed" style="margin-right: 0.3rem;">CUSTOMER</span>
                     <span id="user-display-name">Profile</span>
                 </button>
                 <button class="btn btn-danger" style="padding: 0.45rem 0.8rem; font-size: 0.8rem;" onclick="Auth.logout()">Exit</button>
@@ -38,14 +39,20 @@
         </nav>
     </header>
 
-    <!-- Futuristic Hero Banner -->
-    <section class="hero">
-        <div class="hero-tag">
-            <span>● 100% SECURE PERSISTENT DATABASE & CONCURRENCY LOCK</span>
+    <!-- Customer Dashboard Ribbon -->
+    <div class="user-hero-ribbon glass">
+        <div>
+            <div class="hero-tag" style="margin-bottom: 0.5rem;">
+                <span>● CUSTOMER APPOINTMENT & BOOKING HUB</span>
+            </div>
+            <h1 style="font-size: 1.8rem; font-weight: 800; color: white; margin-bottom: 0.3rem;">Customer Dashboard</h1>
+            <p style="color: var(--text-secondary); font-size: 0.92rem; margin: 0;">Explore live availability slots, book verified experts, join online video meetings, and manage payment receipts.</p>
         </div>
-        <h1>Next-Gen Multi-Vendor Service Marketplace</h1>
-        <p>Connect with verified engineers, UI/UX architects, and system specialists. High-precision real-time scheduling with DB row-level pessimistic locks and automated meeting rooms.</p>
-    </section>
+        <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+            <button class="btn btn-primary" onclick="Profile.showMyBookingsModal()">📅 View My Appointments</button>
+            <button class="btn btn-secondary" onclick="Profile.showProfileModal()">⚙️ Profile Settings</button>
+        </div>
+    </div>
 
     <!-- HUD Metrics Bar -->
     <section class="metrics-hud">

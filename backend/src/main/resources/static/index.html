@@ -18,7 +18,8 @@
 
         <!-- Portal Navigation Switcher -->
         <div class="portal-switch">
-            <a href="index.html" class="active">⚡ Customer Portal</a>
+            <a href="index.html" class="active">🌐 Public Home</a>
+            <a href="user.html">⚡ Customer Dashboard</a>
             <a href="vendor.html">🛠️ Vendor Command</a>
         </div>
 
@@ -89,6 +90,140 @@
     <main class="grid-container" id="services-grid">
         <!-- Rendered dynamically by app.js -->
     </main>
+
+    <!-- Section 1: How It Works -->
+    <section class="section-wrapper" id="how-it-works">
+        <div class="section-header">
+            <span class="section-tag">High-Precision Workflow</span>
+            <h2 class="section-title">How MultiVendor Operates</h2>
+            <p class="section-subtitle">A decentralized, automated booking pipeline backed by database-level concurrency protection and instant sandbox payment clearance.</p>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">01</div>
+                <h3 class="step-title">Discover Verified Experts</h3>
+                <p class="step-desc">Browse specialized engineering labs, system architects, AI researchers, and UI designers with verified customer ratings and transparent pricing.</p>
+            </div>
+            <div class="step-card purple">
+                <div class="step-number">02</div>
+                <h3 class="step-title">Select Real-Time Slot</h3>
+                <p class="step-desc">Pick exact date and time slots published directly by providers. The calendar dynamically synchronizes availability in real time.</p>
+            </div>
+            <div class="step-card emerald">
+                <div class="step-number">03</div>
+                <h3 class="step-title">Pessimistic Lock & Checkout</h3>
+                <p class="step-desc">When you click reserve, a row-level database lock (SELECT FOR UPDATE) prevents any other user from booking your slot during the 10-minute payment hold.</p>
+            </div>
+            <div class="step-card amber">
+                <div class="step-number">04</div>
+                <h3 class="step-title">Instant Meet Link & Invoice</h3>
+                <p class="step-desc">Upon confirmation, an online video meeting room (Google Meet) is auto-generated and an official digital invoice receipt is issued instantly.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Enterprise Architecture Highlights -->
+    <section class="section-wrapper" id="features">
+        <div class="section-header">
+            <span class="section-tag">Enterprise Core</span>
+            <h2 class="section-title">Engineered For Zero Race Conditions</h2>
+            <p class="section-subtitle">Built with Java 21, Spring Boot 3, Spring Data JPA, and multi-tier persistent storage architecture.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3 class="feature-title">Row-Level Pessimistic Locking</h3>
+                <p class="feature-desc">Utilizes Spring Data JPA <code>@Lock(LockModeType.PESSIMISTIC_WRITE)</code> to eliminate double-booking race conditions across simultaneous multi-threaded requests.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💾</div>
+                <h3 class="feature-title">Persistent Disk & Cloud DB</h3>
+                <p class="feature-desc">Permanent disk storage ensures all users, slots, and transactions survive restarts. Ready for Cloud PostgreSQL (Neon, Supabase, Railway) via standard env variables.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⏱️</div>
+                <h3 class="feature-title">Auto-Expiring Hold Daemon</h3>
+                <p class="feature-desc">Background <code>@Scheduled</code> cron tasks automatically release abandoned reservation holds after 10 minutes, returning slots back to the public catalog.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h3 class="feature-title">3D Holographic Sandbox Pay</h3>
+                <p class="feature-desc">Realistic 3D payment card preview with live cardholder name/number mirroring, EMV chip, dynamic brand detection, and instant test authorization.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎥</div>
+                <h3 class="feature-title">Automated Meeting Rooms</h3>
+                <p class="feature-desc">Every confirmed appointment includes an auto-generated video conference link with one-click direct access for both customer and provider.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Batch Slot Generator</h3>
+                <p class="feature-desc">Providers can generate weeks of recurring availability slots across custom operating hours and durations in less than 2 seconds.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Vendor Call-to-Action Banner -->
+    <div class="cta-banner">
+        <div class="cta-content">
+            <h2 class="cta-title">Are You An Expert or Service Provider?</h2>
+            <p class="cta-desc">Monetize your expertise, automate client bookings with concurrency guarantees, and manage your consulting business with real-time revenue analytics.</p>
+        </div>
+        <div class="cta-buttons">
+            <button class="btn btn-primary" onclick="Auth.showRegisterModal(); document.getElementById('reg-role').value = 'VENDOR';">🚀 Join As Verified Vendor</button>
+            <a href="vendor.html" class="btn btn-secondary">🛠️ Vendor Command Center</a>
+        </div>
+    </div>
+
+    <!-- Futuristic Public Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">
+                    <div class="logo-badge">⚡</div>
+                    <span class="logo-text">MultiVendor.ai</span>
+                </a>
+                <p>Enterprise high-concurrency multi-vendor service booking platform. Powered by Spring Boot 3, persistent database storage, and real-time scheduling.</p>
+                <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--emerald-neon);">
+                    ● Persistent Database Connected (./data/multivendordb)
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Portals</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">⚡ Public Marketplace</a></li>
+                    <li><a href="user.html">👤 Customer Dashboard</a></li>
+                    <li><a href="vendor.html">🛠️ Vendor Command Center</a></li>
+                    <li><a href="vendor-dashboard.html">📊 Analytics & Hub</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Developer & API</h4>
+                <ul class="footer-links">
+                    <li><a href="http://localhost:8081/swagger-ui.html" target="_blank">Swagger OpenAPI 3.0</a></li>
+                    <li><a href="http://localhost:8081/h2-console" target="_blank">H2 Database Console</a></li>
+                    <li><a href="http://localhost:8081/api/v1/services" target="_blank">REST API Endpoint</a></li>
+                    <li><a href="https://github.com/ravichavan9970/MultiVendor.git" target="_blank">GitHub Repository</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Categories</h4>
+                <ul class="footer-links">
+                    <li><a href="#services-grid" onclick="App.selectCategory('TUTORING', document.querySelector('.category-pills .pill:nth-child(2)'))">Tutoring & Coaching</a></li>
+                    <li><a href="#services-grid" onclick="App.selectCategory('FREELANCE', document.querySelector('.category-pills .pill:nth-child(3)'))">Design & AI Studio</a></li>
+                    <li><a href="#services-grid" onclick="App.selectCategory('CONSULTING', document.querySelector('.category-pills .pill:nth-child(4)'))">Cloud & DevOps</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>&copy; 2026 MultiVendor Enterprise. All rights reserved.</div>
+            <div style="display: flex; gap: 1.5rem;">
+                <span>🔒 Pessimistic Lock Active</span>
+                <span>💾 Disk File & Cloud PostgreSQL</span>
+                <span>⚡ Spring Boot 3.2.5</span>
+            </div>
+        </div>
+    </footer>
 
     <!-- Booking Modal -->
     <div class="modal-overlay" id="booking-modal">
