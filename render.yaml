@@ -1,0 +1,22 @@
+﻿services:
+  - type: web
+    name: multivendor-platform
+    env: docker
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    plan: free
+    region: oregon
+    healthCheckPath: /api/v1/services
+    envVars:
+      - key: PORT
+        value: 8081
+      - key: JWT_SECRET
+        generateValue: true
+      - key: STRIPE_SECRET_KEY
+        value: sk_test_mock_secret_key_12345
+      - key: DB_URL
+        value: jdbc:h2:file:./data/multivendordb;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1;MODE=MySQL
+      - key: DB_USERNAME
+        value: sa
+      - key: DB_PASSWORD
+        value: ""
