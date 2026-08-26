@@ -21,5 +21,7 @@ const getApiBaseUrl = () => {
 const CONFIG = {
     API_BASE_URL: getApiBaseUrl(),
     SWAGGER_URL: window.location.hostname.includes('vercel.app') ? 'https://multivendor-platform.onrender.com/swagger-ui.html' : '/swagger-ui.html',
-    APP_NAME: 'MultiVendor Enterprise Platform'
+    APP_NAME: 'MultiVendor Enterprise Platform',
+    DEFAULT_UPI_ID: '7447661921@hdfc',
+    DEFAULT_PAYEE_NAME: 'RAVINDRA LAXMAN CHAVAN'
 };
