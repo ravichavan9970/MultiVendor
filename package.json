@@ -1,0 +1,16 @@
+﻿{
+  "name": "multivendor-platform",
+  "version": "1.0.0",
+  "description": "MultiVendor Enterprise - Next-Gen Service Marketplace with Persistent Storage",
+  "scripts": {
+    "start:backend": "cd backend && mvn spring-boot:run",
+    "start:customer": "npx serve frontend -l 5500",
+    "start:vendor": "npx serve frontend -l 5501",
+    "customer": "npm run start:customer",
+    "vendor": "npm run start:vendor",
+    "backend": "npm run start:backend"
+  },
+  "keywords": ["multivendor", "springboot", "marketplace", "booking", "concurrency"],
+  "author": "Ravi Chavan",
+  "license": "MIT"
+}

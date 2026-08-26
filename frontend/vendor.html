@@ -10,23 +10,20 @@
 </head>
 <body>
 
-    <!-- Futuristic Header Navigation -->
+    <!-- Dedicated Vendor Header Navigation -->
     <header class="navbar">
         <a href="vendor.html" class="logo">
             <div class="logo-badge" style="background: linear-gradient(135deg, #8a2be2, #00f2fe);">🛠️</div>
             <span class="logo-text">Vendor.Command</span>
         </a>
 
-        <!-- Portal Navigation Switcher -->
-        <div class="portal-switch">
-            <a href="index.html">🌐 Public Home</a>
-            <a href="user.html">⚡ Customer Dashboard</a>
-            <a href="vendor.html" class="active">🛠️ Vendor Command</a>
+        <div style="margin-left: 1.5rem; font-size: 0.78rem; font-weight: 700; color: var(--emerald-neon); background: rgba(0, 245, 160, 0.08); border: 1px solid rgba(0, 245, 160, 0.25); padding: 0.25rem 0.75rem; border-radius: 999px;">
+            ● VENDOR MANAGEMENT ACTIVE
         </div>
 
-        <nav class="nav-links">
+        <nav class="nav-links" style="margin-left: auto;">
             <button class="btn btn-secondary" onclick="Profile.showProfileModal()">⚙️ Business Settings</button>
-            <button class="btn btn-danger" style="padding: 0.45rem 0.8rem; font-size: 0.8rem;" onclick="Auth.logout()">Exit</button>
+            <button class="btn btn-danger" style="padding: 0.45rem 0.8rem; font-size: 0.8rem;" onclick="Auth.logout()">Log Out</button>
         </nav>
     </header>
 

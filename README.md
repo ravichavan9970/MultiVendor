@@ -53,29 +53,37 @@ sequenceDiagram
 
 ---
 
-## 🚀 Quick Start Guide
+## 🚀 Separate Portals & Run Commands
 
-### Option 1: Run Fullstack Spring Boot (Single Command - Recommended)
+You can run the Backend, Customer Portal, and Vendor Portal in separate terminals with dedicated commands:
 
+### 1. Run Backend Server (Terminal 1 - Port 8081)
 ```bash
-cd backend
-mvn spring-boot:run
+npm run backend
+# Or: .\start-backend.bat
+# Or: cd backend && mvn spring-boot:run
 ```
-
-* **Dedicated User Marketplace**: `http://localhost:8081/user.html` (or `http://localhost:8081`)
-* **Dedicated Vendor Command Portal**: `http://localhost:8081/vendor.html`
-* **Backend REST API**: `http://localhost:8081/api/v1`
+* **REST API**: `http://localhost:8081/api/v1`
 * **Swagger API Docs**: `http://localhost:8081/swagger-ui.html`
-* **Persistent DB Web Console**: `http://localhost:8081/h2-console` (JDBC URL: `jdbc:h2:file:./data/multivendordb`)
+* **Persistent DB Console**: `http://localhost:8081/h2-console` (JDBC URL: `jdbc:h2:file:./data/multivendordb`)
 
-### Option 2: Run with Standalone Frontend Server
-
+### 2. Run Customer & Public Portal (Terminal 2 - Port 5500)
 ```bash
-cd frontend
-npx serve -l 5500
+npm run customer
+# Or: .\start-customer-portal.bat
+# Or: cd frontend && npx serve -l 5500
 ```
-* **User Marketplace**: `http://localhost:5500/user.html`
-* **Vendor Portal**: `http://localhost:5500/vendor.html`
+* **Customer Services Marketplace**: `http://localhost:5500` (or `http://localhost:5500/user.html`)
+* *Audience: General Public & Customers only (No vendor management visible)*
+
+### 3. Run Dedicated Vendor Command Portal (Terminal 3 - Port 5501)
+```bash
+npm run vendor
+# Or: .\start-vendor-portal.bat
+# Or: cd frontend && npx serve -l 5501
+```
+* **Vendor Command Center**: `http://localhost:5501/vendor.html`
+* *Audience: Service Providers & Vendors only (Role-protected management, revenue analytics, batch generator)*
 
 ---
 

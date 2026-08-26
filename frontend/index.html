@@ -9,21 +9,21 @@
 </head>
 <body>
 
-    <!-- Futuristic Header Navigation -->
+    <!-- Public / Customer Header Navigation -->
     <header class="navbar">
         <a href="index.html" class="logo">
             <div class="logo-badge">⚡</div>
             <span class="logo-text">MultiVendor.ai</span>
         </a>
 
-        <!-- Portal Navigation Switcher -->
-        <div class="portal-switch">
-            <a href="index.html" class="active">🌐 Public Home</a>
-            <a href="user.html">⚡ Customer Dashboard</a>
-            <a href="vendor.html">🛠️ Vendor Command</a>
-        </div>
+        <!-- Public Navigation Links -->
+        <nav class="nav-links" style="margin-left: 2rem;">
+            <a href="#services-grid" class="nav-link">⚡ Services Catalog</a>
+            <a href="#how-it-works" class="nav-link">🚀 How It Works</a>
+            <a href="#features" class="nav-link">🔒 Concurrency Protection</a>
+        </nav>
 
-        <nav class="nav-links">
+        <nav class="nav-links" style="margin-left: auto;">
             <div id="auth-buttons">
                 <button class="btn btn-secondary" onclick="Auth.showLoginModal()">Log In</button>
                 <button class="btn btn-primary" onclick="Auth.showRegisterModal()">Sign Up</button>
@@ -31,7 +31,7 @@
             <div id="user-profile" style="display: none; align-items: center; gap: 0.8rem;">
                 <button class="btn btn-secondary" onclick="Profile.showMyBookingsModal()">📅 My Appointments</button>
                 <button class="btn btn-secondary" onclick="Profile.showProfileModal()">
-                    <span id="user-role-badge" class="badge badge-confirmed" style="margin-right: 0.3rem;">USER</span>
+                    <span id="user-role-badge" class="badge badge-confirmed" style="margin-right: 0.3rem;">CUSTOMER</span>
                     <span id="user-display-name">Profile</span>
                 </button>
                 <button class="btn btn-danger" style="padding: 0.45rem 0.8rem; font-size: 0.8rem;" onclick="Auth.logout()">Exit</button>
@@ -163,18 +163,6 @@
         </div>
     </section>
 
-    <!-- Section 3: Vendor Call-to-Action Banner -->
-    <div class="cta-banner">
-        <div class="cta-content">
-            <h2 class="cta-title">Are You An Expert or Service Provider?</h2>
-            <p class="cta-desc">Monetize your expertise, automate client bookings with concurrency guarantees, and manage your consulting business with real-time revenue analytics.</p>
-        </div>
-        <div class="cta-buttons">
-            <button class="btn btn-primary" onclick="Auth.showRegisterModal(); document.getElementById('reg-role').value = 'VENDOR';">🚀 Join As Verified Vendor</button>
-            <a href="vendor.html" class="btn btn-secondary">🛠️ Vendor Command Center</a>
-        </div>
-    </div>
-
     <!-- Futuristic Public Footer -->
     <footer class="footer">
         <div class="footer-container">
@@ -189,12 +177,12 @@
                 </div>
             </div>
             <div class="footer-column">
-                <h4>Portals</h4>
+                <h4>Customer Navigation</h4>
                 <ul class="footer-links">
-                    <li><a href="index.html">⚡ Public Marketplace</a></li>
-                    <li><a href="user.html">👤 Customer Dashboard</a></li>
-                    <li><a href="vendor.html">🛠️ Vendor Command Center</a></li>
-                    <li><a href="vendor-dashboard.html">📊 Analytics & Hub</a></li>
+                    <li><a href="index.html">⚡ Services Marketplace</a></li>
+                    <li><a href="user.html">👤 My Customer Portal</a></li>
+                    <li><a href="#how-it-works">🚀 How Booking Works</a></li>
+                    <li><a href="#features">🔒 Concurrency Protection</a></li>
                 </ul>
             </div>
             <div class="footer-column">
