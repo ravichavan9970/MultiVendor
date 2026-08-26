@@ -18,6 +18,15 @@ const Vendor = {
             return;
         }
 
+        // Restore cached vendor services immediately
+        const cached = localStorage.getItem('mv_vendor_services');
+        if (cached) {
+            try {
+                this.services = JSON.parse(cached);
+                this.filterServices();
+            } catch (e) {}
+        }
+
         await this.loadVendorData();
         await this.loadVendorServices();
         await this.loadVendorBookings();
@@ -48,7 +57,12 @@ const Vendor = {
         const select = document.getElementById('gen-service-id');
 
         try {
-            this.services = await Api.request('/services');
+            const fresh = await Api.request('/services');
+            if (fresh) {
+                this.services = fresh;
+                localStorage.setItem('mv_vendor_services', JSON.stringify(fresh));
+                localStorage.setItem('mv_cached_services', JSON.stringify(fresh));
+            }
             
             // Populate Batch Slot Generator Dropdown
             if (select) {
@@ -59,8 +73,10 @@ const Vendor = {
             const searchTerm = searchInput ? searchInput.value : '';
             this.filterServices(searchTerm);
         } catch (error) {
-            const tbody = document.getElementById('vendor-services-body');
-            if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:1.5rem; color:var(--accent-danger);">Failed to load services.</td></tr>';
+            if (!this.services || this.services.length === 0) {
+                const tbody = document.getElementById('vendor-services-body');
+                if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:1.5rem; color:var(--accent-danger);">Failed to load services.</td></tr>';
+            }
         }
     },
 

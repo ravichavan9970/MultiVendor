@@ -43,17 +43,16 @@ const Api = {
             const data = await response.json().catch(() => ({}));
 
             if (!response.ok) {
-                if (response.status === 401 || response.status === 403) {
-                    const errorMessage = "Session expired or unauthorized. Please log in or register again.";
-                    this.showToast(errorMessage, 'danger');
+                if (response.status === 401 && this.getToken() && (endpoint.includes('/users/me') || endpoint.includes('/vendors/my-profile'))) {
+                    const errorMessage = "Session expired. Please log in again.";
+                    this.showToast(errorMessage, 'info');
                     this.clearAuth();
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1200);
                     throw new Error(errorMessage);
                 }
                 const errorMessage = data.message || data.error || `HTTP Error ${response.status}`;
-                this.showToast(errorMessage, 'danger');
+                if (!endpoint.includes('/stats') && !endpoint.includes('/services') && !endpoint.includes('/auth/login')) {
+                    this.showToast(errorMessage, 'danger');
+                }
                 throw new Error(errorMessage);
             }
 

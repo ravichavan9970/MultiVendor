@@ -3,6 +3,15 @@ const App = {
     selectedCategory: 'ALL',
 
     async init() {
+        const cached = localStorage.getItem('mv_cached_services');
+        if (cached) {
+            try {
+                this.services = JSON.parse(cached);
+                if (this.services && this.services.length > 0) {
+                    this.renderServices(this.services);
+                }
+            } catch (e) {}
+        }
         await this.loadServices();
         this.checkUrlParams();
     },
@@ -11,13 +20,21 @@ const App = {
         const grid = document.getElementById('services-grid');
         if (!grid) return;
 
-        grid.innerHTML = '<div style="color: var(--text-secondary); text-align: center; grid-column: 1/-1;">Loading services catalog...</div>';
+        if (!this.services || this.services.length === 0) {
+            grid.innerHTML = '<div style="color: var(--text-secondary); text-align: center; grid-column: 1/-1; padding: 2.5rem 0;">Loading live services catalog...</div>';
+        }
 
         try {
-            this.services = await Api.request('/services');
-            this.renderServices(this.services);
+            const freshServices = await Api.request('/services');
+            if (freshServices) {
+                this.services = freshServices;
+                localStorage.setItem('mv_cached_services', JSON.stringify(freshServices));
+                this.renderServices(this.services);
+            }
         } catch (error) {
-            grid.innerHTML = '<div style="color: var(--accent-danger); text-align: center; grid-column: 1/-1;">Failed to connect to backend API server on http://localhost:8081</div>';
+            if (!this.services || this.services.length === 0) {
+                grid.innerHTML = '<div style="color: var(--accent-danger); text-align: center; grid-column: 1/-1; padding: 2rem;">Could not connect to live API server. Please refresh in a moment.</div>';
+            }
         }
     },
 
