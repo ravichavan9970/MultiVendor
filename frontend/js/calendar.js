@@ -101,7 +101,7 @@ const Calendar = {
         // Use user's official HDFC QR Code image
         const qrImg = document.getElementById('upi-qr-img');
         if (qrImg) {
-            qrImg.src = 'img/upi-qr.jpg';
+            qrImg.src = (typeof QR_IMAGE_DATA !== 'undefined' && QR_IMAGE_DATA) ? QR_IMAGE_DATA : 'img/upi-qr.jpg';
         }
 
         // Set app deep links
