@@ -94,33 +94,33 @@
         <!-- Rendered dynamically by app.js -->
     </main>
 
-    <!-- Section 1: How It Works -->
+    <!-- Section 1: How It Works Flow -->
     <section class="section-wrapper" id="how-it-works">
         <div class="section-header">
-            <span class="section-tag">High-Precision Workflow</span>
+            <span class="section-tag">Booking Lifecycle</span>
             <h2 class="section-title">How MultiVendor Operates</h2>
-            <p class="section-subtitle">A decentralized, automated booking pipeline backed by database-level concurrency protection and instant sandbox payment clearance.</p>
+            <p class="section-subtitle">Automated end-to-end appointment workflow backed by database-level concurrency protection.</p>
         </div>
         <div class="steps-grid">
             <div class="step-card">
                 <div class="step-number">01</div>
-                <h3 class="step-title">Discover Verified Experts</h3>
-                <p class="step-desc">Browse specialized engineering labs, system architects, AI researchers, and UI designers with verified customer ratings and transparent pricing.</p>
+                <h3 class="step-title">Discover Experts</h3>
+                <p class="step-desc">Filter verified providers by category, hourly rate, and client reviews.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">02</div>
+                <h3 class="step-title">Pick Live Slot</h3>
+                <p class="step-desc">Browse real-time open calendar slots matching your availability.</p>
             </div>
             <div class="step-card purple">
-                <div class="step-number">02</div>
-                <h3 class="step-title">Select Real-Time Slot</h3>
-                <p class="step-desc">Pick exact date and time slots published directly by providers. The calendar dynamically synchronizes availability in real time.</p>
-            </div>
-            <div class="step-card emerald">
                 <div class="step-number">03</div>
-                <h3 class="step-title">Pessimistic Lock & Checkout</h3>
-                <p class="step-desc">When you click reserve, a row-level database lock (SELECT FOR UPDATE) prevents any other user from booking your slot during the 10-minute payment hold.</p>
+                <h3 class="step-title">Pessimistic Hold</h3>
+                <p class="step-desc">10-minute database write lock guarantees zero double-booking.</p>
             </div>
             <div class="step-card amber">
                 <div class="step-number">04</div>
-                <h3 class="step-title">Instant Meet Link & Invoice</h3>
-                <p class="step-desc">Upon confirmation, an online video meeting room (Google Meet) is auto-generated and an official digital invoice receipt is issued instantly.</p>
+                <h3 class="step-title">Meeting & Invoice</h3>
+                <p class="step-desc">Automated video conference link and digital invoice receipt.</p>
             </div>
         </div>
     </section>
@@ -130,38 +130,50 @@
         <div class="section-header">
             <span class="section-tag">Enterprise Core</span>
             <h2 class="section-title">Engineered For Zero Race Conditions</h2>
-            <p class="section-subtitle">Built with Java 21, Spring Boot 3, Spring Data JPA, and multi-tier persistent storage architecture.</p>
+            <p class="section-subtitle">Built with Java 21, Spring Boot 3, Spring Data JPA, and multi-tier persistent storage.</p>
         </div>
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">🔒</div>
-                <h3 class="feature-title">Row-Level Pessimistic Locking</h3>
-                <p class="feature-desc">Utilizes Spring Data JPA <code>@Lock(LockModeType.PESSIMISTIC_WRITE)</code> to eliminate double-booking race conditions across simultaneous multi-threaded requests.</p>
+                <div class="feature-body">
+                    <h3 class="feature-title">Row-Level Pessimistic Locking</h3>
+                    <p class="feature-desc">Zero double-booking guarantee across simultaneous parallel booking requests.</p>
+                </div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">💾</div>
-                <h3 class="feature-title">Persistent Disk & Cloud DB</h3>
-                <p class="feature-desc">Permanent disk storage ensures all users, slots, and transactions survive restarts. Ready for Cloud PostgreSQL (Neon, Supabase, Railway) via standard env variables.</p>
+                <div class="feature-body">
+                    <h3 class="feature-title">Persistent Disk & Cloud DB</h3>
+                    <p class="feature-desc">Permanent storage surviving restarts, compatible with Cloud PostgreSQL.</p>
+                </div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">⏱️</div>
-                <h3 class="feature-title">Auto-Expiring Hold Daemon</h3>
-                <p class="feature-desc">Background <code>@Scheduled</code> cron tasks automatically release abandoned reservation holds after 10 minutes, returning slots back to the public catalog.</p>
+                <div class="feature-body">
+                    <h3 class="feature-title">Auto-Expiring Hold Daemon</h3>
+                    <p class="feature-desc">Scheduled background tasks automatically release abandoned 10-minute holds.</p>
+                </div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">💳</div>
-                <h3 class="feature-title">3D Holographic Sandbox Pay</h3>
-                <p class="feature-desc">Realistic 3D payment card preview with live cardholder name/number mirroring, EMV chip, dynamic brand detection, and instant test authorization.</p>
+                <div class="feature-body">
+                    <h3 class="feature-title">3D Holographic Sandbox Pay</h3>
+                    <p class="feature-desc">Interactive credit card preview with real-time test payment authorization.</p>
+                </div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🎥</div>
-                <h3 class="feature-title">Automated Meeting Rooms</h3>
-                <p class="feature-desc">Every confirmed appointment includes an auto-generated video conference link with one-click direct access for both customer and provider.</p>
+                <div class="feature-body">
+                    <h3 class="feature-title">Automated Meeting Rooms</h3>
+                    <p class="feature-desc">Auto-generated video meeting links for one-click access for client and provider.</p>
+                </div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">⚡</div>
-                <h3 class="feature-title">Batch Slot Generator</h3>
-                <p class="feature-desc">Providers can generate weeks of recurring availability slots across custom operating hours and durations in less than 2 seconds.</p>
+                <div class="feature-body">
+                    <h3 class="feature-title">Batch Slot Generator</h3>
+                    <p class="feature-desc">Providers generate weeks of recurring availability slots in less than 2 seconds.</p>
+                </div>
             </div>
         </div>
     </section>
