@@ -133,13 +133,28 @@ const App = {
         const status = params.get('status');
 
         if (bookingRef && (status === 'success' || isMock === 'true')) {
-            // Auto confirm mock payment
+            Api.showToast('💳 Stripe Payment Verified & Confirmed!', 'success');
             Api.request('/bookings/confirm-mock', {
                 method: 'POST',
                 body: JSON.stringify({ bookingReference: bookingRef })
             }).then(resp => {
-                Profile.showReceiptModal(resp);
+                Profile.showReceipt(
+                    resp.bookingReference,
+                    resp.serviceTitle,
+                    resp.vendorBusinessName,
+                    resp.totalAmount,
+                    resp.createdAt || new Date().toISOString(),
+                    resp.meetingLink,
+                    resp.startTime,
+                    resp.endTime
+                );
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }).catch(() => {
+                window.history.replaceState({}, document.title, window.location.pathname);
             });
+        } else if (bookingRef && status === 'cancel') {
+            Api.showToast('Payment was cancelled. Your slot hold has been released.', 'info');
+            window.history.replaceState({}, document.title, window.location.pathname);
         }
     }
 };

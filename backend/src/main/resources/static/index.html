@@ -238,72 +238,13 @@
                 <textarea id="booking-customer-notes" class="search-input" rows="2" style="width: 100%; resize: vertical;" placeholder="e.g. Topics you want to cover, project link, questions for provider..."></textarea>
             </div>
 
-            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-glass); display: flex; justify-content: space-between; align-items: center;">
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-glass); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                 <div>
-                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Total Price:</span>
+                    <span style="font-size: 0.82rem; color: var(--text-secondary);">Total Price:</span>
                     <div id="modal-service-price" style="font-size: 1.4rem; font-weight: 800; color: var(--accent-success);">$0.00</div>
                 </div>
-                <button class="btn btn-primary" id="confirm-hold-btn" onclick="Calendar.confirmBookingHold()">Proceed to Payment Gateway</button>
+                <button class="btn btn-primary" id="confirm-hold-btn" onclick="Calendar.confirmBookingHold()">Proceed to Secure Checkout 💳</button>
             </div>
-        </div>
-    </div>
-
-    <!-- Embedded Real-Time Credit Card Payment Gateway Modal -->
-    <div class="modal-overlay" id="payment-modal">
-        <div class="modal-content glass" style="max-width: 480px;">
-            <button class="modal-close" onclick="Calendar.closePaymentGatewayModal()">✕</button>
-            <h2 style="margin-bottom: 0.3rem;">💳 Real-Time Payment Gateway</h2>
-            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.2rem;">Complete your transaction securely via Stripe Sandbox.</p>
-            
-            <!-- Live Interactive Card Preview -->
-            <div class="card-preview">
-                <div class="card-brand" id="card-brand-display">VISA</div>
-                <div class="card-chip"></div>
-                <div class="card-number-display" id="card-num-display">•••• •••• •••• ••••</div>
-                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                    <div>
-                        <div style="font-size: 0.65rem; color: #94a3b8; text-transform: uppercase;">Card Holder</div>
-                        <div class="card-holder-display" id="card-name-display">JOHN DOE</div>
-                    </div>
-                    <div>
-                        <div style="font-size: 0.65rem; color: #94a3b8; text-transform: uppercase;">Expires</div>
-                        <div style="font-size: 0.85rem; font-weight: 600;">12/28</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Booking Order Summary -->
-            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.2rem; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <div id="pay-service-title" style="font-weight: 700; color: white;">Service Title</div>
-                    <div id="pay-vendor-name" style="font-size: 0.8rem; color: var(--text-secondary);">Provider</div>
-                    <div style="font-size: 0.75rem; color: #a5b4fc; margin-top: 0.2rem;">Hold Ref: <span id="pay-booking-ref">#...</span></div>
-                </div>
-                <div id="pay-total-price" style="font-size: 1.5rem; font-weight: 800; color: var(--accent-success);">$0.00</div>
-            </div>
-
-            <!-- Payment Form -->
-            <form onsubmit="Calendar.processCardPayment(event)">
-                <div style="margin-bottom: 0.8rem;">
-                    <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Card Number</label>
-                    <input type="text" id="card-number-input" class="search-input" placeholder="4242 4242 4242 4242" required style="width: 100%; font-family: monospace;" oninput="Calendar.formatCardNumber(this)" maxlength="19" value="4242 4242 4242 4242">
-                </div>
-                <div style="margin-bottom: 0.8rem;">
-                    <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Cardholder Name</label>
-                    <input type="text" id="card-name-input" class="search-input" placeholder="John Doe" required style="width: 100%;" oninput="Calendar.updateCardName(this)" value="John Doe">
-                </div>
-                <div style="display: flex; gap: 0.8rem; margin-bottom: 1.2rem;">
-                    <div style="flex: 1;">
-                        <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">Expiry Date</label>
-                        <input type="text" placeholder="MM/YY" class="search-input" required style="width: 100%;" maxlength="5" value="12/28">
-                    </div>
-                    <div style="flex: 1;">
-                        <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">CVC / CVV</label>
-                        <input type="text" placeholder="123" class="search-input" required style="width: 100%;" maxlength="4" value="123">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary" id="pay-process-btn" style="width: 100%; justify-content: center; font-size: 1rem; padding: 0.8rem;">Pay & Complete Booking</button>
-            </form>
         </div>
     </div>
 
